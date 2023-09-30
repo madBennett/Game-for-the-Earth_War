@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.35656163, g: 0.7264151, b: 0.30609939, a: 1}
+  m_Color: {r: 0.5849056, g: 0.31820333, b: 0.7058824, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -158,7 +158,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.35656163, g: 0.7264151, b: 0.30609939, a: 1}
+  m_Color: {r: 0.5849056, g: 0.31820333, b: 0.7058824, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -242,7 +242,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.35656163, g: 0.7264151, b: 0.30609939, a: 1}
+  m_Color: {r: 0.5849056, g: 0.31820333, b: 0.7058824, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -326,7 +326,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.35656163, g: 0.7264151, b: 0.30609939, a: 1}
+  m_Color: {r: 0.5849056, g: 0.31820333, b: 0.7058824, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -410,7 +410,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.35656163, g: 0.7264151, b: 0.30609939, a: 1}
+  m_Color: {r: 0.5849056, g: 0.31820333, b: 0.7058824, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -470,6 +470,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb0f10e4d1bf37444b3431b8ce1243b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deck: []
+  playableDeck: []
+  cardSlots: []
+  avaibleSlots: 
+  deckSizeText: {fileID: 0}
 --- !u!1 &9180423855989233837
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,7 +549,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.43622166, g: 0.18927252, b: 0.5471698, a: 1}
+  m_Color: {r: 0.43075997, g: 0.8207547, b: 0.37682444, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

@@ -9,6 +9,7 @@ public class Alien : MonoBehaviour
     private GameManager gm;
     private Played_Cards played_Cards;
 
+    public bool canPlayCard = true;
     public Card_Deck_and_Slots card_Deck_And_Slots;
     public Transform[] playedSlots;
 
@@ -25,15 +26,28 @@ public class Alien : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    public void playCard()
+    public void playCard(int slotNum)
     {
-        //select card
+        if (canPlayCard)
+        {
+            //select card
+            int i = Random.Range(0, card_Deck_And_Slots.playableDeck.Count - 1);
+            Card playedCard = card_Deck_And_Slots.playableDeck[i];
 
-        //move card to play area
+            //remove from playable deck and replace card
+            card_Deck_And_Slots.playableDeck.Remove(playedCard);
+            card_Deck_And_Slots.avaibleSlots[i] = true;
 
-        //logic for war???? maybe goes in game manager???
+
+            //place played card into playedCard deck
+            played_Cards.addToPlayed(false, playedCard, slotNum);
+            card_Deck_And_Slots.deck.Remove(playedCard);
+            canPlayCard = false;
+            card_Deck_And_Slots.fillCardSlot(i);
+        }
+
     }
 }

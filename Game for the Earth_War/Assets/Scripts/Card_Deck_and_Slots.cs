@@ -8,7 +8,7 @@ using TMPro;
 public class Card_Deck_and_Slots : MonoBehaviour
 {
     [Header("Inscribed")]
-
+    private int playableDeckSize = 5;
 
     public List<Card> deck = new List<Card>();
     public List<Card> playableDeck = new List<Card>();
@@ -35,6 +35,7 @@ public class Card_Deck_and_Slots : MonoBehaviour
             Card newCard = deck[i];
             newCard.transform.position = cardSlots[i].position;
             newCard.setPos(cardSlots[i].position);
+            newCard.gameObject.SetActive(true);
             playableDeck.Add(newCard);
             avaibleSlots[i] = false;
         }
@@ -43,18 +44,19 @@ public class Card_Deck_and_Slots : MonoBehaviour
     //fill card slots functionality
     public void fillCardSlot()
     {
-        if(deck.Count >= 1)
+        if(deck.Count >= playableDeckSize)
         {
             Card randCard = deck[Random.Range(0, deck.Count-1)];
             for (int i = 0; i < avaibleSlots.Length; i++)
             {
                 if (avaibleSlots[i])
                 {
-                    randCard.transform.position = cardSlots[i].position;
                     randCard.setPos(cardSlots[i].position);
+                    randCard.transform.position = (cardSlots[i].position);
+                    randCard.gameObject.SetActive(true);
                     playableDeck.Add(randCard);
                     avaibleSlots[i] = false;
-                    return;
+                    //return;  //since after war this could be the best option
                 }
             }
         }
@@ -63,17 +65,37 @@ public class Card_Deck_and_Slots : MonoBehaviour
     //fill card slots functionality at index
     public void fillCardSlot(int slotNum)
     {
-        if (deck.Count >= 1)
+        if (deck.Count > playableDeckSize)
         {
-            Card randCard = deck[Random.Range(0, deck.Count - 1)];
             if (avaibleSlots[slotNum])
             {
-                randCard.transform.position = cardSlots[slotNum].position;
+                //insure card is not already choosen
+                Card randCard = deck[Random.Range(0, deck.Count - 1)];
+                while(playableDeck.Contains(randCard))
+                {
+                    randCard = deck[Random.Range(0, deck.Count - 1)];
+                }
                 randCard.setPos(cardSlots[slotNum].position);
+                randCard.transform.position = (cardSlots[slotNum].position);
+                randCard.gameObject.SetActive(true);
                 playableDeck.Insert(slotNum, randCard);
                 avaibleSlots[slotNum] = false;
                 return;
             }
         }
+    }
+
+    //functionality for adding card to deck
+    public void addToDeck(Card inCard, bool isPlayer)
+    {
+        if (!isPlayer && inCard.faceUp)
+        {
+            inCard.flip();
+        }
+        inCard.moveToOgPos();
+        inCard.isPlayableCard = isPlayer;
+        inCard.faceUp = isPlayer;
+
+        deck.Add(inCard);
     }
 }

@@ -9,8 +9,9 @@ public class Played_Cards : MonoBehaviour
 {
     [Header("Inscribed")]
 
-    private Player player;
     private Alien alien;
+    private User player;
+    private GameManager gm;
 
     public List<Card> playerDeck = new List<Card>();
     public List<Card> alienDeck = new List<Card>();
@@ -21,11 +22,14 @@ public class Played_Cards : MonoBehaviour
     public bool[] playerAvaibleSlots;
     public bool[] alienAvaibleSlots;
 
+    public int defalutSlotNum = 1;
+
     // Start is called before the first frame update
     void Start()
     {
-        player = FindObjectOfType<Player>();
         alien = FindObjectOfType<Alien>();
+        player = FindObjectOfType<User>();
+        gm = FindObjectOfType<GameManager>();
 
         for (int i = 0; i < playerAvaibleSlots.Length; i++)
         {
@@ -37,36 +41,44 @@ public class Played_Cards : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+         
     }
 
     public void addToPlayed(bool isPlayer, Card playedCard, int slotNum)
     {
-        playerDeck.Add(playedCard);
-        playedCard.isPlayableCard = false;
         if (isPlayer)
         {
+            playerDeck.Add(playedCard);
+            playedCard.transform.position = playerCardSlots[slotNum].transform.position;
             playerAvaibleSlots[slotNum] = false;
-            playedCard.moveCard(playerCardSlots[slotNum].transform.position);
         }
         else
         {
+            alienDeck.Add(playedCard);
+            playedCard.transform.position = alienCardSlots[slotNum].transform.position;
             alienAvaibleSlots[slotNum] = false;
-            playedCard.moveCard(alienCardSlots[slotNum].transform.position);
         }
     }
 
-    public void findWinnerNormPlay(int slotNum = 1)
+    public void findWinnerNormPlay(int slotNum)
     {
-        if (alienAvaibleSlots[slotNum] && playerAvaibleSlots[slotNum])
+        if (!alienAvaibleSlots[slotNum] && !playerAvaibleSlots[slotNum])
         {
-            if (alienDeck[slotNum].num > playerDeck[slotNum].num)
+            Card alienCard = alienDeck[0];
+            Card playerCard = playerDeck[0];
+
+            alienCard.flip();
+
+            //wait for time
+            gm.wait(200);//not working!!!!!!
+
+            if (alienCard.num > playerCard.num)
             {
                 //alien win
-                alien.card_Deck_And_Slots.deck.Add(alienDeck[slotNum]);
-                alien.card_Deck_And_Slots.deck.Add(playerDeck[slotNum]);
+                alien.card_Deck_And_Slots.addToDeck(alienCard, false);
+                alien.card_Deck_And_Slots.addToDeck(playerCard, false);
             }
-            else if (alienDeck[slotNum].num == playerDeck[slotNum].num)
+            else if (alienCard.num == playerCard.num)
             {
                 //war
                 beginWar();
@@ -75,19 +87,25 @@ public class Played_Cards : MonoBehaviour
             else
             {
                 //player win
-                player.card_Deck_And_Slots.deck.Add(alienDeck[slotNum]);
-                player.card_Deck_And_Slots.deck.Add(playerDeck[slotNum]);
+                player.card_Deck_And_Slots.addToDeck(alienCard, true);
+                player.card_Deck_And_Slots.addToDeck(playerCard, true);
             }
 
-            //remove cards and reset aviablity
-            alienDeck[slotNum].moveCard(alienDeck[slotNum].startingPos);
-            playerDeck[slotNum].moveCard(playerDeck[slotNum].startingPos);
+            
 
-            alienDeck.RemoveAt(slotNum);
-            playerDeck.RemoveAt(slotNum);
+            //remove cards and reset aviablity
+
+            alienDeck.Remove(alienCard);
+            playerDeck.Remove(playerCard);
+
+            alienCard.gameObject.SetActive(false);
+            playerCard.gameObject.SetActive(false);
 
             playerAvaibleSlots[slotNum] = true;
             alienAvaibleSlots[slotNum] = true;
+
+            player.canPlayCard = true;
+            alien.canPlayCard = true;
         }
     }
 

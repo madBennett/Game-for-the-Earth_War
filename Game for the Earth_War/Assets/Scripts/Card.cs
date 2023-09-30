@@ -8,30 +8,30 @@ public class Card : MonoBehaviour
     [Header("Inscribed")]
 
     private Vector3 ogPos;
+    private Vector3 pos;
     private Vector3 bouncePos;
-    private Vector3 movePos;//maybe make public???  for war occurance
     private bool bounced = false;
     private bool isMouseOver = false;
-    
-    public Vector3 startingPos;
+    //private Rigidbody rigidBody;
+
     public float bounceHeight = 0.25f;
     public int num;
     public string suit;
     public bool isPlayableCard = true;
-    public bool faceUp = false;
-    
-    void Knit()
-    {
-        startingPos = transform.position;
-    }
-    
+    public bool faceUp = true;//needed????
 
-    // Start is called before the first frame update
     void Start()
     {
-        ogPos = transform.position;
-        bouncePos = ogPos;
+        //ogPos = new Vector3(-50, -50, 0);
+        pos = this.transform.position;
+        bouncePos = pos;
         bouncePos.y += bounceHeight;
+        //rigidBody = gameObject.GetComponent<Rigidbody>();//rigidbody get
+    }
+
+    public void setOgPosAtCurPos()
+    {
+        ogPos = this.transform.position;
     }
 
     public bool wasMouseOver()
@@ -41,22 +41,27 @@ public class Card : MonoBehaviour
 
     public void setPos(Vector3 inMovePos)
     {
-        ogPos = inMovePos;
-        bouncePos = ogPos;
+        pos = inMovePos;
+        bouncePos = pos;
         bouncePos.y += bounceHeight;
     }
 
-    public void moveCard(Vector3 inMovePos)
+    public void moveToOgPos()
     {
-        this.transform.position = inMovePos;
+        this.transform.position = ogPos;
     }
-    public void flip()
+
+    public void flip()//not working in realtime gameplay
     {
-        Quaternion rotation = transform.rotation;
-        rotation.y += 180f;
-
-        transform.rotation = rotation;
-
+        if (faceUp)
+        {
+            this.transform.RotateAround(transform.position, Vector3.up, 180);
+        }
+        else
+        {
+            this.transform.RotateAround(transform.position, Vector3.up, -180);
+        }
+        faceUp = !faceUp;
     }
 
     void OnMouseOver()
@@ -77,7 +82,7 @@ public class Card : MonoBehaviour
         {
             if (bounced)
             {
-                this.transform.position = ogPos;
+                this.transform.position = pos;
                 bounced = false;
             }
 
