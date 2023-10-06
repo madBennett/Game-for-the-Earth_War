@@ -33,8 +33,7 @@ public class Card_Deck_and_Slots : MonoBehaviour
         for (int i = 0; i < cardSlots.Length; i++)
         {
             Card newCard = deck[i];
-            newCard.transform.position = cardSlots[i].position;
-            newCard.setPos(cardSlots[i].position);
+            newCard.move(cardSlots[i].position);
             newCard.gameObject.SetActive(true);
             playableDeck.Add(newCard);
             avaibleSlots[i] = false;
@@ -51,8 +50,7 @@ public class Card_Deck_and_Slots : MonoBehaviour
             {
                 if (avaibleSlots[i])
                 {
-                    randCard.setPos(cardSlots[i].position);
-                    randCard.transform.position = (cardSlots[i].position);
+                    randCard.move(cardSlots[i].position);
                     randCard.gameObject.SetActive(true);
                     playableDeck.Add(randCard);
                     avaibleSlots[i] = false;
@@ -75,11 +73,23 @@ public class Card_Deck_and_Slots : MonoBehaviour
                 {
                     randCard = deck[Random.Range(0, deck.Count - 1)];
                 }
-                randCard.setPos(cardSlots[slotNum].position);
-                randCard.transform.position = (cardSlots[slotNum].position);
+
+                int chosenSlot = slotNum;
+                /*  Test later
+                if (slotNum >= 1 && slotNum > avaibleSlots.Length/2)
+                {
+                    chosenSlot = (avaibleSlots[slotNum - 1]) ? slotNum - 1 : slotNum;
+                }
+                else if (slotNum < avaibleSlots.Length - 1 && slotNum < avaibleSlots.Length/2)
+                {
+                    chosenSlot = (avaibleSlots[slotNum + 1]) ? slotNum + 1 : slotNum;
+                }
+                */
+
+                randCard.move(cardSlots[chosenSlot].position);
                 randCard.gameObject.SetActive(true);
-                playableDeck.Insert(slotNum, randCard);
-                avaibleSlots[slotNum] = false;
+                playableDeck.Insert(chosenSlot, randCard);
+                avaibleSlots[chosenSlot] = false;
                 return;
             }
         }

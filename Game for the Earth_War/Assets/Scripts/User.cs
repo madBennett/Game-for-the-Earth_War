@@ -44,20 +44,30 @@ public class User : MonoBehaviour
                         //remove from playable deck and replace card
                         card_Deck_And_Slots.playableDeck.Remove(playedCard);
                         card_Deck_And_Slots.avaibleSlots[i] = true;
-                        
+
 
                         //place played card into playedCard deck
+                        canPlayCard = false;
                         played_Cards.addToPlayed(true, playedCard, slotNum);
                         card_Deck_And_Slots.deck.Remove(playedCard);
-                        canPlayCard = false;
                         
+
+                        //add delay
+                        //Invoke("findWinnerNormPlay", 3f);
+                        gm.startTime = Time.time;
+                        
+                        //played_Cards.opCardsPlayed(slotNum);
+
                         card_Deck_And_Slots.fillCardSlot(i);
                         break;
                     }
                 }
             }
-
-            //logic for war???? maybe goes in game manager???
         }
+    }
+
+    private void findWinnerNormPlay()//better way to impliment??? REMOVE
+    {
+        played_Cards.findWinnerNormPlay(gm.defalutSlotNum);
     }
 }

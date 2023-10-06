@@ -18,7 +18,7 @@ public class Card : MonoBehaviour
     public int num;
     public string suit;
     public bool isPlayableCard = true;
-    public bool faceUp = true;//needed????
+    public bool faceUp = true;
 
     void Start()
     {
@@ -39,16 +39,17 @@ public class Card : MonoBehaviour
         return isMouseOver;
     }
 
-    public void setPos(Vector3 inMovePos)
-    {
-        pos = inMovePos;
-        bouncePos = pos;
-        bouncePos.y += bounceHeight;
-    }
-
     public void moveToOgPos()
     {
         this.transform.position = ogPos;
+    }
+
+    public void move(Vector3 inMovePos)
+    {
+        this.transform.position = inMovePos;
+        pos = inMovePos;
+        bouncePos = pos;
+        bouncePos.y += bounceHeight;
     }
 
     public void flip()//not working in realtime gameplay

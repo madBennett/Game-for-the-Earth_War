@@ -49,40 +49,45 @@ public class Played_Cards : MonoBehaviour
         if (isPlayer)
         {
             playerDeck.Add(playedCard);
-            playedCard.transform.position = playerCardSlots[slotNum].transform.position;
+            playedCard.move(playerCardSlots[slotNum].position);
             playerAvaibleSlots[slotNum] = false;
         }
         else
         {
             alienDeck.Add(playedCard);
-            playedCard.transform.position = alienCardSlots[slotNum].transform.position;
+            playedCard.move(alienCardSlots[slotNum].position);
             alienAvaibleSlots[slotNum] = false;
+        }
+
+        opCardsPlayed(slotNum);
+    }
+
+    public void opCardsPlayed(int slotNum)
+    {
+        if (!alienAvaibleSlots[slotNum] && !playerAvaibleSlots[slotNum])
+        {
+            alienDeck[0].flip();
         }
     }
 
-    public void findWinnerNormPlay(int slotNum)
+    public void findWinnerNormPlay(int slotNum = 1)
     {
         if (!alienAvaibleSlots[slotNum] && !playerAvaibleSlots[slotNum])
         {
             Card alienCard = alienDeck[0];
             Card playerCard = playerDeck[0];
 
-            alienCard.flip();
-
-            //wait for time
-            gm.wait(200);//not working!!!!!!
-
-            if (alienCard.num > playerCard.num)
+            if (checkWarCond())
+            {
+                //war
+                beginWar();
+                //return;
+            }
+            else if (alienCard.num > playerCard.num)
             {
                 //alien win
                 alien.card_Deck_And_Slots.addToDeck(alienCard, false);
                 alien.card_Deck_And_Slots.addToDeck(playerCard, false);
-            }
-            else if (alienCard.num == playerCard.num)
-            {
-                //war
-                beginWar();
-                return;
             }
             else
             {
@@ -109,8 +114,23 @@ public class Played_Cards : MonoBehaviour
         }
     }
 
+    public bool checkWarCond()
+    {
+        bool isWar = false;
+
+        if (!alienAvaibleSlots[defalutSlotNum] && !playerAvaibleSlots[defalutSlotNum])
+        {
+            Card alienCard = alienDeck[0];
+            Card playerCard = playerDeck[0];
+
+            isWar = (alienCard.num == playerCard.num) || (false) || (false);
+        }
+
+        return isWar;
+    }
+
     public void beginWar()
     {
-        //behavior for war
+        //war behavoir
     }
 }
