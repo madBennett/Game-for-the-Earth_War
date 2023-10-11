@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
                 {
                     if (alien.playCard(alien.currWarSlot))
                     {
-                        Debug.Log("Played card: " + played_Cards.alienDeck[alien.currWarSlot]);
+                        // Debug.Log("Played card: " + played_Cards.alienDeck[alien.currWarSlot]);
                         alien.currWarSlot = alien.currWarSlot + 1;
                         alien.canPlayCard = alien.currWarSlot < played_Cards.alienAvaibleSlots.Length;
                     }
@@ -63,6 +63,32 @@ public class GameManager : MonoBehaviour
                         player.currWarSlot = player.currWarSlot + 1;
                         player.canPlayCard = player.currWarSlot < played_Cards.playerCardSlots.Length;
                     }
+                }
+                if ((alien.currWarSlot >= played_Cards.alienAvaibleSlots.Length) 
+                    && (player.currWarSlot >= played_Cards.playerCardSlots.Length)
+                    && checkCards)
+                {
+                    checkCards = false;
+                    int alienWarScore = 0;
+                    int playerWarScore = 0;
+                    for (int i = 0; i < played_Cards.alienAvaibleSlots.Length; i++)
+                    {
+                        if (played_Cards.findWinWarPlay(i) == Played_Cards.WinType.ALIEN_WIN)
+                        {
+                            alienWarScore++;
+                        }
+                        else
+                        {
+                            playerWarScore++;
+                        }
+                        played_Cards.displayDialog("Its\n" + playerWarScore + "to " + alienWarScore);
+                    }
+
+                    played_Cards.finishWarPlay(playerWarScore > alienWarScore);
+
+                    alien.canPlayCard = true;
+                    player.canPlayCard = true;
+                    isWar = false;
                 }
             }
         }

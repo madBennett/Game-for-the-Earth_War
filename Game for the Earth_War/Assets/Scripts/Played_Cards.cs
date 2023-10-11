@@ -124,6 +124,45 @@ public class Played_Cards : MonoBehaviour
         }
     }
 
+    public WinType findWinWarPlay(int slotNum)
+    {
+        WinType winType = WinType.ERROR;
+        
+        if ((!alienAvaibleSlots[slotNum] && !playerAvaibleSlots[slotNum])
+            && (alienDeck.Count > 0 && playerDeck.Count > 0))
+        {
+            Card alienCard = alienDeck[slotNum];
+            Card playerCard = playerDeck[slotNum];
+
+            if (alienCard.num == playerCard.num)
+            {
+                //check suit type
+                if (alienCard.suit > playerCard.suit)
+                {
+                    //alien win
+                    winType = WinType.ALIEN_WIN;
+                }
+                else
+                {
+                    //player win
+                    winType = WinType.PLAYER_WIN;
+                }
+            }
+            else if (alienCard.num > playerCard.num)
+            {
+                //alien win
+                winType = WinType.ALIEN_WIN;
+            }
+            else
+            {
+                //player win
+                winType = WinType.PLAYER_WIN;
+            }
+        }
+
+        return winType;
+    }
+
     public void finishNormPlay(int slotNum)
     {
         if ((!alienAvaibleSlots[slotNum] && !playerAvaibleSlots[slotNum])
@@ -165,6 +204,37 @@ public class Played_Cards : MonoBehaviour
         }
     }
 
+    public void finishWarPlay(bool playerWin)
+    {
+        if (playerWin)
+        {
+            alien.card_Deck_And_Slots.deck.Remove(warPool[0]);
+
+            player.card_Deck_And_Slots.addToDeck(warPool[0], true);
+            for (int i = 0; i < alienAvaibleSlots.Length; i++)
+            {
+                player.card_Deck_And_Slots.addToDeck(alienDeck[i], true);
+                alien.card_Deck_And_Slots.deck.Remove(alienDeck[i]);
+            }
+        }
+        else
+        {
+            player.card_Deck_And_Slots.deck.Remove(warPool[1]);
+
+            alien.card_Deck_And_Slots.addToDeck(warPool[1], false);
+            for (int i = 0; i < playerAvaibleSlots.Length; i++)
+            {
+                alien.card_Deck_And_Slots.addToDeck(playerDeck[i], false);
+                player.card_Deck_And_Slots.deck.Remove(playerDeck[i]);
+            }
+        }
+        
+        for (int i = playerAvaibleSlots.Length - 1; i >= 0 ; i--)
+        {
+            clearSlot(i);
+        }
+    }
+
     public void displayDialog(string dialog)
     {
         dialogText.gameObject.SetActive(true);
@@ -185,6 +255,8 @@ public class Played_Cards : MonoBehaviour
 
         alien.currWarSlot = 0;
         player.currWarSlot = 0;
+
+        gm.checkCards = true;
 
         //alien.canPlayCard = true;
         //player.canPlayCard = true;

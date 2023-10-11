@@ -16,7 +16,7 @@ public class Card : MonoBehaviour
 
     public float bounceHeight = 0.25f;
     public int num;
-    public string suit;
+    public int suit;
     public bool isPlayableCard = true;
     public bool faceUp = true;
 

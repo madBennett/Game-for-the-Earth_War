@@ -184,7 +184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 10
-  suit: Spade
+  suit: 4
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465889645188767
@@ -283,7 +283,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 8
-  suit: Spade
+  suit: 4
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &8583081976849281652 stripped
@@ -392,7 +392,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 9
-  suit: Spade
+  suit: 4
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465889829784303
@@ -496,7 +496,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 1
-  suit: Diamond
+  suit: 2
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465889876437303
@@ -600,7 +600,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 6
-  suit: Spade
+  suit: 4
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465889931906813
@@ -704,7 +704,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 2
-  suit: Heart
+  suit: 3
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465889989188643
@@ -808,7 +808,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 6
-  suit: Club
+  suit: 1
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465889993727742
@@ -907,7 +907,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 8
-  suit: Club
+  suit: 1
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &5640481472889181827 stripped
@@ -1011,7 +1011,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 9
-  suit: Club
+  suit: 1
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &2108687725292218515 stripped
@@ -1115,7 +1115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 10
-  suit: Diamond
+  suit: 2
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &5726028446484029742 stripped
@@ -1219,7 +1219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 7
-  suit: Spade
+  suit: 4
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &9195726257408511257 stripped
@@ -1323,7 +1323,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 11
-  suit: Heart
+  suit: 3
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &296876248314542768 stripped
@@ -1432,7 +1432,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 2
-  suit: Diamond
+  suit: 2
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465890104023424
@@ -1536,7 +1536,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 13
-  suit: Club
+  suit: 1
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465890236478890
@@ -1635,7 +1635,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 13
-  suit: Spade
+  suit: 4
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &1701195116552758363 stripped
@@ -1739,7 +1739,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 5
-  suit: Diamond
+  suit: 2
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &7491767289376729888 stripped
@@ -1843,7 +1843,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 6
-  suit: Heart
+  suit: 3
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &3236880083910773494 stripped
@@ -1952,7 +1952,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 7
-  suit: Club
+  suit: 1
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465890402475511
@@ -2056,7 +2056,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 6
-  suit: Diamond
+  suit: 2
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465890421986790
@@ -2160,7 +2160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 9
-  suit: Heart
+  suit: 3
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465890435586743
@@ -2264,7 +2264,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 4
-  suit: Spade
+  suit: 4
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465890491728445
@@ -2363,7 +2363,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 2
-  suit: Club
+  suit: 1
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &5656839671764597349 stripped
@@ -2467,7 +2467,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 11
-  suit: Spade
+  suit: 4
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &8491414327150327456 stripped
@@ -2576,7 +2576,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 1
-  suit: Heart
+  suit: 3
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465890560271372
@@ -2675,7 +2675,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 3
-  suit: Club
+  suit: 1
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &8465883544229560634 stripped
@@ -2779,7 +2779,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 12
-  suit: Club
+  suit: 1
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &5717938593977194894 stripped
@@ -2888,7 +2888,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 2
-  suit: Spade
+  suit: 4
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465890580682887
@@ -2992,7 +2992,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 7
-  suit: Diamond
+  suit: 2
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465890721424437
@@ -3091,7 +3091,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 1
-  suit: Club
+  suit: 1
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &5087411721705856488 stripped
@@ -3200,7 +3200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 11
-  suit: Club
+  suit: 1
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465890884889401
@@ -3304,7 +3304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 8
-  suit: Diamond
+  suit: 2
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465890922451593
@@ -3408,7 +3408,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 5
-  suit: Club
+  suit: 1
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465890934565674
@@ -3507,7 +3507,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 8
-  suit: Heart
+  suit: 3
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &2710161492155512069 stripped
@@ -3611,7 +3611,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 12
-  suit: Heart
+  suit: 3
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &2730835301285268121 stripped
@@ -3715,7 +3715,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 13
-  suit: Heart
+  suit: 3
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &1524941225240700539 stripped
@@ -3819,7 +3819,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 10
-  suit: Club
+  suit: 1
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &975454918588517058 stripped
@@ -3928,7 +3928,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 9
-  suit: Diamond
+  suit: 2
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465891108888959
@@ -4032,7 +4032,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 5
-  suit: Heart
+  suit: 3
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465891133800258
@@ -4131,7 +4131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 10
-  suit: Heart
+  suit: 3
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &6320157598441278660 stripped
@@ -4235,7 +4235,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 12
-  suit: Diamond
+  suit: 2
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &2258721889110435678 stripped
@@ -4339,7 +4339,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 11
-  suit: Diamond
+  suit: 2
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &5122968383149838506 stripped
@@ -4443,7 +4443,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 4
-  suit: Club
+  suit: 1
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &2206821275834003456 stripped
@@ -4547,7 +4547,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 4
-  suit: Heart
+  suit: 3
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &3781937145817192309 stripped
@@ -4656,7 +4656,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 3
-  suit: Heart
+  suit: 3
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465891406188757
@@ -4760,7 +4760,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 3
-  suit: Diamond
+  suit: 2
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465891445108375
@@ -4859,7 +4859,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 12
-  suit: Spade
+  suit: 4
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &438176495272732126 stripped
@@ -4963,7 +4963,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 7
-  suit: Heart
+  suit: 3
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &5025060687082409479 stripped
@@ -5072,7 +5072,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 1
-  suit: Spade
+  suit: 4
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465891519390616
@@ -5176,7 +5176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 5
-  suit: Spade
+  suit: 4
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465891636344561
@@ -5280,7 +5280,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 13
-  suit: Diamond
+  suit: 2
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465891637808769
@@ -5384,7 +5384,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 3
-  suit: Spade
+  suit: 4
   isPlayableCard: 1
   faceUp: 0
 --- !u!1001 &3833465891672689365
@@ -5483,7 +5483,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.25
   num: 4
-  suit: Diamond
+  suit: 2
   isPlayableCard: 1
   faceUp: 0
 --- !u!4 &7914058141909348363 stripped
