@@ -10,6 +10,7 @@ public class Alien : MonoBehaviour
     private Played_Cards played_Cards;
 
     public bool canPlayCard = true;
+    public int currWarSlot = 0;
     public Card_Deck_and_Slots card_Deck_And_Slots;
     public Transform[] playedSlots;
 
@@ -29,9 +30,9 @@ public class Alien : MonoBehaviour
 
     }
 
-    public void playCard(int slotNum)
+    public bool playCard(int slotNum)
     {
-        if (canPlayCard)
+        if (canPlayCard || played_Cards.alienAvaibleSlots[slotNum])
         {
             //select card
             int i = Random.Range(0, card_Deck_And_Slots.playableDeck.Count - 1);
@@ -44,11 +45,13 @@ public class Alien : MonoBehaviour
 
             //place played card into playedCard deck
             played_Cards.addToPlayed(false, playedCard, slotNum);
-            card_Deck_And_Slots.deck.Remove(playedCard);
+            //card_Deck_And_Slots.deck.Remove(playedCard);
             canPlayCard = false;
 
             card_Deck_And_Slots.fillCardSlot(i);
-        }
 
+            return true;
+        }
+        return false;
     }
 }

@@ -98,7 +98,7 @@ public class Card_Deck_and_Slots : MonoBehaviour
     //functionality for adding card to deck
     public void addToDeck(Card inCard, bool isPlayer)
     {
-        if (!isPlayer && inCard.faceUp)
+        if (!isPlayer)
         {
             inCard.flip();
         }

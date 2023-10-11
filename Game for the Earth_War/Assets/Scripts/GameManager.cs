@@ -12,9 +12,10 @@ public class GameManager : MonoBehaviour
     private User player;
     private Played_Cards played_Cards;
 
-    public int waitTime;
+    public float waitTime = 2f;
     public float startTime = 999;
     public int defalutSlotNum = 1;
+    public bool checkCards = false;
     public List<Card> deck = new List<Card>();
 
     // Start is called before the first frame update
@@ -28,20 +29,48 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isWar)
+        if (!(player.card_Deck_And_Slots.deck.Count == 0) || !(player.card_Deck_And_Slots.deck.Count == 0) 
+            || !(true))//replace true with timer
         {
-            alien.playCard(defalutSlotNum);
-            player.playCard(defalutSlotNum);
-
-            if (Time.time - startTime >= waitTime)
+            if (!isWar)
             {
-                played_Cards.findWinnerNormPlay(defalutSlotNum);
-                isWar = played_Cards.checkWarCond();
+                alien.playCard(defalutSlotNum);
+                player.playCard(defalutSlotNum);
+                played_Cards.findWinNormPlay(defalutSlotNum);
+
+                if ((Time.time - startTime >= waitTime) && checkCards)
+                {
+                    checkCards = false;
+                    played_Cards.finishNormPlay(defalutSlotNum);
+                    isWar = (played_Cards.winType == Played_Cards.WinType.WAR);
+                }
+            }
+            else
+            {
+                if (alien.currWarSlot < played_Cards.alienAvaibleSlots.Length)
+                {
+                    if (alien.playCard(alien.currWarSlot))
+                    {
+                        Debug.Log("Played card: " + played_Cards.alienDeck[alien.currWarSlot]);
+                        alien.currWarSlot = alien.currWarSlot + 1;
+                        alien.canPlayCard = alien.currWarSlot < played_Cards.alienAvaibleSlots.Length;
+                    }
+                }
+                if (player.currWarSlot < played_Cards.playerCardSlots.Length)
+                {
+                    if (player.playCard(player.currWarSlot))
+                    {
+                        player.currWarSlot = player.currWarSlot + 1;
+                        player.canPlayCard = player.currWarSlot < played_Cards.playerCardSlots.Length;
+                    }
+                }
             }
         }
         else
         {
-            //
+            //exit screens
+            alien.canPlayCard = false;
+            player.canPlayCard = false;
         }
     }
 

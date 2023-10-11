@@ -13,6 +13,11 @@ public class Played_Cards : MonoBehaviour
     private User player;
     private GameManager gm;
 
+    private int warOccurances = 0;
+    private List<Card> warPool = new List<Card>();
+
+    public WinType winType = WinType.ERROR;
+
     public List<Card> playerDeck = new List<Card>();
     public List<Card> alienDeck = new List<Card>();
 
@@ -23,6 +28,16 @@ public class Played_Cards : MonoBehaviour
     public bool[] alienAvaibleSlots;
 
     public int defalutSlotNum = 1;
+    public TextMeshProUGUI dialogText;
+    public GameObject dialogBox;
+
+    public enum WinType
+    {
+        ERROR,
+        ALIEN_WIN,
+        PLAYER_WIN,
+        WAR
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +51,7 @@ public class Played_Cards : MonoBehaviour
             playerAvaibleSlots[i] = true;
             alienAvaibleSlots[i] = true;
         }
+        removeDiaglog();
     }
 
     // Update is called once per frame
@@ -48,89 +64,162 @@ public class Played_Cards : MonoBehaviour
     {
         if (isPlayer)
         {
-            playerDeck.Add(playedCard);
+            playerDeck.Insert(slotNum, playedCard);
             playedCard.move(playerCardSlots[slotNum].position);
             playerAvaibleSlots[slotNum] = false;
         }
         else
         {
-            alienDeck.Add(playedCard);
+            alienDeck.Insert(slotNum, playedCard);
             playedCard.move(alienCardSlots[slotNum].position);
             alienAvaibleSlots[slotNum] = false;
         }
 
-        opCardsPlayed(slotNum);
+        //opCardsPlayed(slotNum);
+        if (!alienAvaibleSlots[slotNum] && !playerAvaibleSlots[slotNum])
+        {
+            alienDeck[slotNum].flip();
+        }
     }
 
     public void opCardsPlayed(int slotNum)
     {
         if (!alienAvaibleSlots[slotNum] && !playerAvaibleSlots[slotNum])
         {
-            alienDeck[0].flip();
+            //alienDeck[0].flip();
         }
     }
 
-    public void findWinnerNormPlay(int slotNum = 1)
+    public void findWinNormPlay(int slotNum)
     {
-        if (!alienAvaibleSlots[slotNum] && !playerAvaibleSlots[slotNum])
+        if ((!alienAvaibleSlots[slotNum] && !playerAvaibleSlots[slotNum]) 
+            && (alienDeck.Count > 0 && playerDeck.Count > 0))
         {
-            Card alienCard = alienDeck[0];
-            Card playerCard = playerDeck[0];
+            Card alienCard = alienDeck[slotNum];
+            Card playerCard = playerDeck[slotNum];
 
-            if (checkWarCond())
+            winType = WinType.ERROR;
+
+            if ((alienCard.num == playerCard.num) || (alienCard.suit == playerCard.suit) 
+                || (false))
             {
                 //war
-                beginWar();
-                //return;
+                winType = WinType.WAR;
+                displayDialog("LETS BEGIN BATTLE");
             }
             else if (alienCard.num > playerCard.num)
             {
                 //alien win
-                alien.card_Deck_And_Slots.addToDeck(alienCard, false);
-                alien.card_Deck_And_Slots.addToDeck(playerCard, false);
+                winType = WinType.ALIEN_WIN;
+                displayDialog("HA! I WIN!");
             }
             else
             {
                 //player win
-                player.card_Deck_And_Slots.addToDeck(alienCard, true);
-                player.card_Deck_And_Slots.addToDeck(playerCard, true);
+                winType = WinType.PLAYER_WIN;
+                displayDialog("Darn, you win");
             }
 
-            
-
-            //remove cards and reset aviablity
-
-            alienDeck.Remove(alienCard);
-            playerDeck.Remove(playerCard);
-
-            alienCard.gameObject.SetActive(false);
-            playerCard.gameObject.SetActive(false);
-
-            playerAvaibleSlots[slotNum] = true;
-            alienAvaibleSlots[slotNum] = true;
-
-            player.canPlayCard = true;
-            alien.canPlayCard = true;
+            gm.checkCards = true;
         }
     }
 
-    public bool checkWarCond()
+    public void finishNormPlay(int slotNum)
     {
-        bool isWar = false;
-
-        if (!alienAvaibleSlots[defalutSlotNum] && !playerAvaibleSlots[defalutSlotNum])
+        if ((!alienAvaibleSlots[slotNum] && !playerAvaibleSlots[slotNum])
+            && (alienDeck.Count > 0 && playerDeck.Count > 0))
         {
-            Card alienCard = alienDeck[0];
-            Card playerCard = playerDeck[0];
+            Card alienCard = alienDeck[slotNum];
+            Card playerCard = playerDeck[slotNum];
 
-            isWar = (alienCard.num == playerCard.num) || (false) || (false);
+            switch (winType)
+            {
+                case WinType.PLAYER_WIN:
+                    //player win
+                    player.card_Deck_And_Slots.addToDeck(alienCard, true);
+                    alien.card_Deck_And_Slots.deck.Remove(alienCard);
+                    break;
+
+                case WinType.ALIEN_WIN:
+                    //alien win
+                    alien.card_Deck_And_Slots.addToDeck(playerCard, false);
+                    player.card_Deck_And_Slots.deck.Remove(playerCard);
+                    break;
+
+                case WinType.WAR:
+                    //war
+                    warPool.Add(alienCard);
+                    warPool.Add(playerCard);//save cuurr cards to add to winners decks
+                                            //dontforget to remove later on from losers deck
+                    //alien.canPlayCard = false;
+                    //player.canPlayCard = false;
+                    Invoke("beginWar", 0f);
+                    break;
+
+                default:
+                    Debug.Log("Error in calc of win type");
+                    break;
+            }
+
+            clearSlot(slotNum);
         }
+    }
 
-        return isWar;
+    public void displayDialog(string dialog)
+    {
+        dialogText.gameObject.SetActive(true);
+        dialogBox.gameObject.SetActive(true);
+        dialogText.text = dialog;
+    }
+
+    public void removeDiaglog()
+    {
+        dialogText.gameObject.SetActive(false);
+        dialogBox.gameObject.SetActive(false);
     }
 
     public void beginWar()
     {
         //war behavoir
+        warOccurances++;
+
+        alien.currWarSlot = 0;
+        player.currWarSlot = 0;
+
+        //alien.canPlayCard = true;
+        //player.canPlayCard = true;
+
+        //add dialog to instruct player on rules of war
+        if (warOccurances == 1)//first time
+        {
+            alien.canPlayCard = false;
+            player.canPlayCard = false;
+
+            displayDialog("Hows the battle go you ask?\nDont you know its your peoples game.");
+            Invoke("removeDiaglog", 1f);
+
+            alien.canPlayCard = true;
+            player.canPlayCard = true;
+        }
+
+
+        //Debug.Log("Begin war fin");
+    }
+
+    private void clearSlot(int slotNum)
+    {//remove cards and reset aviablity
+        removeDiaglog();
+
+        alienDeck[slotNum].gameObject.SetActive(false);
+        playerDeck[slotNum].gameObject.SetActive(false);
+
+        alienDeck.Remove(alienDeck[slotNum]);
+        playerDeck.Remove(playerDeck[slotNum]);
+
+        playerAvaibleSlots[slotNum] = true;
+        alienAvaibleSlots[slotNum] = true;
+
+        player.canPlayCard = true;
+        alien.canPlayCard = true;
     }
 }

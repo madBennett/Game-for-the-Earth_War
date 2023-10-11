@@ -10,6 +10,7 @@ public class User : MonoBehaviour
     private Played_Cards played_Cards;
 
     public bool canPlayCard = true;
+    public int currWarSlot = 0;
     public Card_Deck_and_Slots card_Deck_And_Slots;
     public Transform[] playedSlots;
 
@@ -28,9 +29,9 @@ public class User : MonoBehaviour
     {
     }
 
-    public void playCard(int slotNum)
+    public bool playCard(int slotNum)
     {
-        if (canPlayCard)
+        if (canPlayCard || played_Cards.alienAvaibleSlots[slotNum])
         {
             //select card
             if (Input.GetMouseButtonDown(0))
@@ -49,8 +50,8 @@ public class User : MonoBehaviour
                         //place played card into playedCard deck
                         canPlayCard = false;
                         played_Cards.addToPlayed(true, playedCard, slotNum);
-                        card_Deck_And_Slots.deck.Remove(playedCard);
-                        
+                        //card_Deck_And_Slots.deck.Remove(playedCard);
+                        playedCard.isPlayableCard = false;
 
                         //add delay
                         //Invoke("findWinnerNormPlay", 3f);
@@ -59,15 +60,12 @@ public class User : MonoBehaviour
                         //played_Cards.opCardsPlayed(slotNum);
 
                         card_Deck_And_Slots.fillCardSlot(i);
-                        break;
+
+                        return true;
                     }
                 }
             }
         }
-    }
-
-    private void findWinnerNormPlay()//better way to impliment??? REMOVE
-    {
-        played_Cards.findWinnerNormPlay(gm.defalutSlotNum);
+        return false;
     }
 }
