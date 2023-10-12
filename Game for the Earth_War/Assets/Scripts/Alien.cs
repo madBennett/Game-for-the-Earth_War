@@ -21,7 +21,7 @@ public class Alien : MonoBehaviour
         played_Cards = FindObjectOfType<Played_Cards>();
 
         card_Deck_And_Slots.deck = gm.getStartingDeck(false);
-        card_Deck_And_Slots.setUpSlots();
+        card_Deck_And_Slots.setUpSlots(false);
     }
 
     // Update is called once per frame
@@ -48,7 +48,7 @@ public class Alien : MonoBehaviour
             //card_Deck_And_Slots.deck.Remove(playedCard);
             canPlayCard = false;
 
-            card_Deck_And_Slots.fillCardSlot(i);
+            card_Deck_And_Slots.fillCardSlot(i, false);
 
             return true;
         }

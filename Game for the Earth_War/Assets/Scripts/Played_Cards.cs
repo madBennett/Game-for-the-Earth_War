@@ -14,12 +14,12 @@ public class Played_Cards : MonoBehaviour
     private GameManager gm;
 
     private int warOccurances = 0;
-    private List<Card> warPool = new List<Card>();
 
     public WinType winType = WinType.ERROR;
 
     public List<Card> playerDeck = new List<Card>();
     public List<Card> alienDeck = new List<Card>();
+    public List<Card> warPool = new List<Card>();
 
     public Transform[] playerCardSlots;
     public Transform[] alienCardSlots;
@@ -82,7 +82,7 @@ public class Played_Cards : MonoBehaviour
         }
     }
 
-    public void opCardsPlayed(int slotNum)
+    public void opCardsPlayed(int slotNum)//remove ???
     {
         if (!alienAvaibleSlots[slotNum] && !playerAvaibleSlots[slotNum])
         {
@@ -232,6 +232,11 @@ public class Played_Cards : MonoBehaviour
         for (int i = playerAvaibleSlots.Length - 1; i >= 0 ; i--)
         {
             clearSlot(i);
+        }
+
+        for (int i = warPool.Count - 1; i >= 0; i--)
+        {
+            warPool.RemoveAt(i);
         }
     }
 

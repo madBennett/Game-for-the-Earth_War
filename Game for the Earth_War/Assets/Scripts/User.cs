@@ -21,7 +21,7 @@ public class User : MonoBehaviour
         played_Cards = FindObjectOfType<Played_Cards>();
 
         card_Deck_And_Slots.deck = gm.getStartingDeck(true);
-        card_Deck_And_Slots.setUpSlots();
+        card_Deck_And_Slots.setUpSlots(true);
     }
 
     // Update is called once per frame
@@ -59,7 +59,7 @@ public class User : MonoBehaviour
                         
                         //played_Cards.opCardsPlayed(slotNum);
 
-                        card_Deck_And_Slots.fillCardSlot(i);
+                        card_Deck_And_Slots.fillCardSlot(i, true);
 
                         return true;
                     }

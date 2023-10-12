@@ -111,11 +111,6 @@ public class GameManager : MonoBehaviour
             tempCard.faceUp = isPlayer;
             tempCard.isPlayableCard = isPlayer;
 
-            if (!isPlayer)
-            {
-                tempCard.flip();
-            }
-
             playerDeck.Add(tempCard);
             deck.Remove(tempCard);
         }

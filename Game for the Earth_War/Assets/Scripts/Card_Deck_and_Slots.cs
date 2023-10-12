@@ -9,6 +9,7 @@ public class Card_Deck_and_Slots : MonoBehaviour
 {
     [Header("Inscribed")]
     private int playableDeckSize = 5;
+    private Played_Cards played_Cards;
 
     public List<Card> deck = new List<Card>();
     public List<Card> playableDeck = new List<Card>();
@@ -19,7 +20,7 @@ public class Card_Deck_and_Slots : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //deckSizeText = GetComponent<TextMeshProUGUI>();
+        played_Cards = FindObjectOfType<Played_Cards>();
     }
 
     // Update is called once per frame
@@ -28,11 +29,15 @@ public class Card_Deck_and_Slots : MonoBehaviour
         deckSizeText.text = deck.Count.ToString("#,0");
     }
 
-    public void setUpSlots()
+    public void setUpSlots(bool isPlayer)
     {
         for (int i = 0; i < cardSlots.Length; i++)
         {
             Card newCard = deck[i];
+            if (!isPlayer)
+            {
+                newCard.flip();
+            }
             newCard.move(cardSlots[i].position);
             newCard.gameObject.SetActive(true);
             playableDeck.Add(newCard);
@@ -40,39 +45,20 @@ public class Card_Deck_and_Slots : MonoBehaviour
         }
     }
 
-    //fill card slots functionality
-    public void fillCardSlot()
-    {
-        if(deck.Count >= playableDeckSize)
-        {
-            Card randCard = deck[Random.Range(0, deck.Count-1)];
-            for (int i = 0; i < avaibleSlots.Length; i++)
-            {
-                if (avaibleSlots[i])
-                {
-                    randCard.move(cardSlots[i].position);
-                    randCard.gameObject.SetActive(true);
-                    playableDeck.Add(randCard);
-                    avaibleSlots[i] = false;
-                    //return;  //since after war this could be the best option
-                }
-            }
-        }
-    }
-
     //fill card slots functionality at index
-    public void fillCardSlot(int slotNum)
+    public void fillCardSlot(int slotNum, bool isPlayer)
     {
         if (deck.Count > playableDeckSize)
         {
             if (avaibleSlots[slotNum])
             {
-                //insure card is not already choosen
-                Card randCard = deck[Random.Range(0, deck.Count - 1)];
-                while(playableDeck.Contains(randCard))
+                //insure card is not already choosen or played
+                Card randCard;
+                do//causes infinate loop when deck too small
                 {
                     randCard = deck[Random.Range(0, deck.Count - 1)];
-                }
+                } while ((playableDeck.Contains(randCard)) || (played_Cards.playerDeck.Contains(randCard)) 
+                || (played_Cards.alienDeck.Contains(randCard)) || (played_Cards.warPool.Contains(randCard)));
 
                 int chosenSlot = slotNum;
                 /*  Test later
@@ -85,7 +71,10 @@ public class Card_Deck_and_Slots : MonoBehaviour
                     chosenSlot = (avaibleSlots[slotNum + 1]) ? slotNum + 1 : slotNum;
                 }
                 */
-
+                if (!isPlayer)
+                {
+                    randCard.flip();
+                }
                 randCard.move(cardSlots[chosenSlot].position);
                 randCard.gameObject.SetActive(true);
                 playableDeck.Insert(chosenSlot, randCard);
@@ -98,13 +87,8 @@ public class Card_Deck_and_Slots : MonoBehaviour
     //functionality for adding card to deck
     public void addToDeck(Card inCard, bool isPlayer)
     {
-        if (!isPlayer)
-        {
-            inCard.flip();
-        }
         inCard.moveToOgPos();
         inCard.isPlayableCard = isPlayer;
-        inCard.faceUp = isPlayer;
 
         deck.Add(inCard);
     }
