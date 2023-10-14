@@ -7,7 +7,6 @@ public class GameManager : MonoBehaviour
     [Header("Inscribed")]
 
     private int deckSize = 52;
-    private bool isWar = false;
     private Alien alien;
     private User player;
     private Played_Cards played_Cards;
@@ -15,7 +14,8 @@ public class GameManager : MonoBehaviour
     public float waitTime = 2f;
     public float startTime = 999;
     public int defalutSlotNum = 1;
-    public bool checkCards = false;
+    public bool checkCards = false; //prevents cards being checked mutliple times
+    public bool isWar = false;
     public List<Card> deck = new List<Card>();
 
     // Start is called before the first frame update
@@ -69,26 +69,8 @@ public class GameManager : MonoBehaviour
                     && checkCards)
                 {
                     checkCards = false;
-                    int alienWarScore = 0;
-                    int playerWarScore = 0;
-                    for (int i = 0; i < played_Cards.alienAvaibleSlots.Length; i++)
-                    {
-                        if (played_Cards.findWinWarPlay(i) == Played_Cards.WinType.ALIEN_WIN)
-                        {
-                            alienWarScore++;
-                        }
-                        else
-                        {
-                            playerWarScore++;
-                        }
-                        played_Cards.displayDialog("Its\n" + playerWarScore + "to " + alienWarScore);
-                    }
 
-                    played_Cards.finishWarPlay(playerWarScore > alienWarScore);
-
-                    alien.canPlayCard = true;
-                    player.canPlayCard = true;
-                    isWar = false;
+                    played_Cards.finishWarPlay(player.warScore > alien.warScore);
                 }
             }
         }

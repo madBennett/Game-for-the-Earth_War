@@ -15,6 +15,8 @@ public class Played_Cards : MonoBehaviour
 
     private int warOccurances = 0;
 
+    public AudioSource audioSource;
+
     public WinType winType = WinType.ERROR;
 
     public List<Card> playerDeck = new List<Card>();
@@ -30,6 +32,9 @@ public class Played_Cards : MonoBehaviour
     public int defalutSlotNum = 1;
     public TextMeshProUGUI dialogText;
     public GameObject dialogBox;
+    public AudioClip happyAlien;
+    public List<AudioClip> AngryAlien = new List<AudioClip>();
+
 
     public enum WinType
     {
@@ -79,6 +84,19 @@ public class Played_Cards : MonoBehaviour
         if (!alienAvaibleSlots[slotNum] && !playerAvaibleSlots[slotNum])
         {
             alienDeck[slotNum].flip();
+            if (gm.isWar)
+            {
+                if (findWinWarPlay(slotNum) == WinType.ALIEN_WIN)
+                {
+                    alien.warScore++;
+                }
+                else
+                {
+                    player.warScore++;
+                }
+                displayDialog("Its\n" + player.warScore + "to " + alien.warScore);
+
+            }
         }
     }
 
@@ -112,12 +130,14 @@ public class Played_Cards : MonoBehaviour
                 //alien win
                 winType = WinType.ALIEN_WIN;
                 displayDialog("HA! I WIN!");
+                audioSource.PlayOneShot(happyAlien, 0.5f);//audio replaying alot
             }
             else
             {
                 //player win
                 winType = WinType.PLAYER_WIN;
                 displayDialog("Darn, you win");
+                audioSource.PlayOneShot(AngryAlien[Random.Range(0, AngryAlien.Count - 1)], 0.5f);
             }
 
             gm.checkCards = true;
@@ -228,8 +248,13 @@ public class Played_Cards : MonoBehaviour
                 player.card_Deck_And_Slots.deck.Remove(playerDeck[i]);
             }
         }
-        
-        for (int i = playerAvaibleSlots.Length - 1; i >= 0 ; i--)
+
+        Invoke("clearPostWar", 1f);//if at 0 no issues but high odd mov,emt error
+    }
+
+    private void clearPostWar()
+    {
+        for (int i = playerAvaibleSlots.Length - 1; i >= 0; i--)
         {
             clearSlot(i);
         }
@@ -238,6 +263,12 @@ public class Played_Cards : MonoBehaviour
         {
             warPool.RemoveAt(i);
         }
+
+        alien.canPlayCard = true;
+        player.canPlayCard = true;
+        gm.isWar = false;
+
+        removeDiaglog();
     }
 
     public void displayDialog(string dialog)
@@ -261,6 +292,9 @@ public class Played_Cards : MonoBehaviour
         alien.currWarSlot = 0;
         player.currWarSlot = 0;
 
+        alien.warScore = 0;
+        player.warScore = 0;
+
         gm.checkCards = true;
 
         //alien.canPlayCard = true;
@@ -272,8 +306,8 @@ public class Played_Cards : MonoBehaviour
             alien.canPlayCard = false;
             player.canPlayCard = false;
 
-            displayDialog("Hows the battle go you ask?\nDont you know its your peoples game.");
-            Invoke("removeDiaglog", 1f);
+            //displayDialog("Hows the battle go you ask?\nDont you know its your peoples game.");
+            //Invoke("removeDiaglog", 1f);
 
             alien.canPlayCard = true;
             player.canPlayCard = true;

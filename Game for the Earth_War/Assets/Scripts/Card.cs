@@ -13,12 +13,15 @@ public class Card : MonoBehaviour
     private bool bounced = false;
     private bool isMouseOver = false;
     //private Rigidbody rigidBody;
+    
+    public AudioSource audioSource;
 
     public float bounceHeight = 0.25f;
     public int num;
     public int suit;
     public bool isPlayableCard = true;
     public bool faceUp = true;
+    public AudioClip cardFlip;
 
     void Start()
     {
@@ -52,15 +55,17 @@ public class Card : MonoBehaviour
         bouncePos.y += bounceHeight;
     }
 
-    public void flip()//not working in realtime gameplay
+    public void flip()
     {
         if (faceUp)
         {
             this.transform.RotateAround(transform.position, Vector3.up, 180);
+            audioSource.PlayOneShot(cardFlip, 0.5f);
         }
         else
         {
             this.transform.RotateAround(transform.position, Vector3.up, -180);
+            
         }
         faceUp = !faceUp;
     }

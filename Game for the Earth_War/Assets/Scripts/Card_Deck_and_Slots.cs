@@ -48,8 +48,8 @@ public class Card_Deck_and_Slots : MonoBehaviour
     //fill card slots functionality at index
     public void fillCardSlot(int slotNum, bool isPlayer)
     {
-        if (deck.Count > playableDeckSize)
-        {
+        if (deck.Count > playableDeckSize + 1)//account for playable deck and played card
+        {//DOESNT FULLY WORK CAUSES WIN COND NOT TO WORK SINCE LAT CARD IS NOT BEING PUT OUT
             if (avaibleSlots[slotNum])
             {
                 //insure card is not already choosen or played
@@ -87,7 +87,6 @@ public class Card_Deck_and_Slots : MonoBehaviour
     //functionality for adding card to deck
     public void addToDeck(Card inCard, bool isPlayer)
     {
-        inCard.moveToOgPos();
         inCard.isPlayableCard = isPlayer;
 
         deck.Add(inCard);

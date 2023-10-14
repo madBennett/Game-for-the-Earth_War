@@ -11,6 +11,7 @@ public class User : MonoBehaviour
 
     public bool canPlayCard = true;
     public int currWarSlot = 0;
+    public int warScore = 0;
     public Card_Deck_and_Slots card_Deck_And_Slots;
     public Transform[] playedSlots;
 
