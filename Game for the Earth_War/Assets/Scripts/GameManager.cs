@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     public float waitTime = 2f;
     public float startTime = 999;
+    public float volume = 1f;
     public int defalutSlotNum = 1;
     public bool checkCards = false; //prevents cards being checked mutliple times
     public bool isWar = false;
@@ -36,7 +37,6 @@ public class GameManager : MonoBehaviour
             {
                 alien.playCard(defalutSlotNum);
                 player.playCard(defalutSlotNum);
-                played_Cards.findWinNormPlay(defalutSlotNum);
 
                 if ((Time.time - startTime >= waitTime) && checkCards)
                 {
@@ -51,7 +51,6 @@ public class GameManager : MonoBehaviour
                 {
                     if (alien.playCard(alien.currWarSlot))
                     {
-                        // Debug.Log("Played card: " + played_Cards.alienDeck[alien.currWarSlot]);
                         alien.currWarSlot = alien.currWarSlot + 1;
                         alien.canPlayCard = alien.currWarSlot < played_Cards.alienAvaibleSlots.Length;
                     }
@@ -92,6 +91,7 @@ public class GameManager : MonoBehaviour
             tempCard.gameObject.SetActive(false);
             tempCard.faceUp = isPlayer;
             tempCard.isPlayableCard = isPlayer;
+            tempCard.setVolume(volume);
 
             playerDeck.Add(tempCard);
             deck.Remove(tempCard);

@@ -80,32 +80,47 @@ public class Played_Cards : MonoBehaviour
             alienAvaibleSlots[slotNum] = false;
         }
 
-        //opCardsPlayed(slotNum);
-        if (!alienAvaibleSlots[slotNum] && !playerAvaibleSlots[slotNum])
+        if (gm.isWar)
         {
-            alienDeck[slotNum].flip();
-            if (gm.isWar)
-            {
-                if (findWinWarPlay(slotNum) == WinType.ALIEN_WIN)
-                {
-                    alien.warScore++;
-                }
-                else
-                {
-                    player.warScore++;
-                }
-                displayDialog("Its\n" + player.warScore + "to " + alien.warScore);
-
-            }
+            findWinWarPlay(slotNum);
+        }
+        else
+        {
+            findWinNormPlay(slotNum);
         }
     }
 
-    public void opCardsPlayed(int slotNum)//remove ???
+    public void beginWar()
     {
-        if (!alienAvaibleSlots[slotNum] && !playerAvaibleSlots[slotNum])
+        //war behavoir
+        warOccurances++;
+
+        alien.currWarSlot = 0;
+        player.currWarSlot = 0;
+
+        alien.warScore = 0;
+        player.warScore = 0;
+
+        gm.checkCards = true;
+
+        //alien.canPlayCard = true;
+        //player.canPlayCard = true;
+
+        //add dialog to instruct player on rules of war
+        if (warOccurances == 1)//first time remove?????????????/
         {
-            //alienDeck[0].flip();
+            alien.canPlayCard = false;
+            player.canPlayCard = false;
+
+            //displayDialog("Hows the battle go you ask?\nDont you know its your peoples game.");
+            //Invoke("removeDiaglog", 1f);
+
+            alien.canPlayCard = true;
+            player.canPlayCard = true;
         }
+
+
+        //Debug.Log("Begin war fin");
     }
 
     public void findWinNormPlay(int slotNum)
@@ -116,7 +131,9 @@ public class Played_Cards : MonoBehaviour
             Card alienCard = alienDeck[slotNum];
             Card playerCard = playerDeck[slotNum];
 
-            winType = WinType.ERROR;
+            alienCard.flip();
+
+            //winType = WinType.ERROR;
 
             if ((alienCard.num == playerCard.num) || (alienCard.suit == playerCard.suit) 
                 || (false))
@@ -130,21 +147,21 @@ public class Played_Cards : MonoBehaviour
                 //alien win
                 winType = WinType.ALIEN_WIN;
                 displayDialog("HA! I WIN!");
-                audioSource.PlayOneShot(happyAlien, 0.5f);//audio replaying alot
+                playHappyAlienDialog();
             }
             else
             {
                 //player win
                 winType = WinType.PLAYER_WIN;
                 displayDialog("Darn, you win");
-                audioSource.PlayOneShot(AngryAlien[Random.Range(0, AngryAlien.Count - 1)], 0.5f);
+                playAngryAlienAudio();
             }
 
             gm.checkCards = true;
         }
     }
 
-    public WinType findWinWarPlay(int slotNum)
+    public void findWinWarPlay(int slotNum)
     {
         WinType winType = WinType.ERROR;
         
@@ -153,6 +170,8 @@ public class Played_Cards : MonoBehaviour
         {
             Card alienCard = alienDeck[slotNum];
             Card playerCard = playerDeck[slotNum];
+
+            alienCard.flip();
 
             if (alienCard.num == playerCard.num)
             {
@@ -178,9 +197,19 @@ public class Played_Cards : MonoBehaviour
                 //player win
                 winType = WinType.PLAYER_WIN;
             }
-        }
 
-        return winType;
+            if (winType == WinType.ALIEN_WIN)
+            {
+                alien.warScore++;
+                playHappyAlienDialog();
+            }
+            else
+            {
+                player.warScore++;
+                playAngryAlienAudio();
+            }
+            displayDialog("Its\n" + player.warScore + "to " + alien.warScore);
+        }
     }
 
     public void finishNormPlay(int slotNum)
@@ -197,22 +226,21 @@ public class Played_Cards : MonoBehaviour
                     //player win
                     player.card_Deck_And_Slots.addToDeck(alienCard, true);
                     alien.card_Deck_And_Slots.deck.Remove(alienCard);
+                    winType = WinType.ERROR;
                     break;
 
                 case WinType.ALIEN_WIN:
                     //alien win
                     alien.card_Deck_And_Slots.addToDeck(playerCard, false);
                     player.card_Deck_And_Slots.deck.Remove(playerCard);
+                    winType = WinType.ERROR;
                     break;
 
                 case WinType.WAR:
                     //war
                     warPool.Add(alienCard);
-                    warPool.Add(playerCard);//save cuurr cards to add to winners decks
-                                            //dontforget to remove later on from losers deck
-                    //alien.canPlayCard = false;
-                    //player.canPlayCard = false;
-                    Invoke("beginWar", 0f);
+                    warPool.Add(playerCard);
+                    beginWar();
                     break;
 
                 default:
@@ -250,6 +278,47 @@ public class Played_Cards : MonoBehaviour
         }
 
         Invoke("clearPostWar", 1f);//if at 0 no issues but high odd mov,emt error
+        winType = WinType.ERROR;
+    }
+
+    public void displayDialog(string dialog)
+    {
+        dialogText.gameObject.SetActive(true);
+        dialogBox.gameObject.SetActive(true);
+        dialogText.text = dialog;
+    }
+
+    public void removeDiaglog()
+    {
+        dialogText.gameObject.SetActive(false);
+        dialogBox.gameObject.SetActive(false);
+    }
+
+    public void playAngryAlienAudio()
+    {
+        audioSource.PlayOneShot(AngryAlien[Random.Range(0, AngryAlien.Count - 1)], gm.volume);
+    }
+
+    public void playHappyAlienDialog()
+    {
+        audioSource.PlayOneShot(happyAlien, gm.volume);
+    }
+
+    private void clearSlot(int slotNum)
+    {//remove cards and reset aviablity
+        removeDiaglog();
+
+        alienDeck[slotNum].gameObject.SetActive(false);
+        playerDeck[slotNum].gameObject.SetActive(false);
+
+        alienDeck.Remove(alienDeck[slotNum]);
+        playerDeck.Remove(playerDeck[slotNum]);
+
+        playerAvaibleSlots[slotNum] = true;
+        alienAvaibleSlots[slotNum] = true;
+
+        player.canPlayCard = true;
+        alien.canPlayCard = true;
     }
 
     private void clearPostWar()
@@ -269,68 +338,5 @@ public class Played_Cards : MonoBehaviour
         gm.isWar = false;
 
         removeDiaglog();
-    }
-
-    public void displayDialog(string dialog)
-    {
-        dialogText.gameObject.SetActive(true);
-        dialogBox.gameObject.SetActive(true);
-        dialogText.text = dialog;
-    }
-
-    public void removeDiaglog()
-    {
-        dialogText.gameObject.SetActive(false);
-        dialogBox.gameObject.SetActive(false);
-    }
-
-    public void beginWar()
-    {
-        //war behavoir
-        warOccurances++;
-
-        alien.currWarSlot = 0;
-        player.currWarSlot = 0;
-
-        alien.warScore = 0;
-        player.warScore = 0;
-
-        gm.checkCards = true;
-
-        //alien.canPlayCard = true;
-        //player.canPlayCard = true;
-
-        //add dialog to instruct player on rules of war
-        if (warOccurances == 1)//first time
-        {
-            alien.canPlayCard = false;
-            player.canPlayCard = false;
-
-            //displayDialog("Hows the battle go you ask?\nDont you know its your peoples game.");
-            //Invoke("removeDiaglog", 1f);
-
-            alien.canPlayCard = true;
-            player.canPlayCard = true;
-        }
-
-
-        //Debug.Log("Begin war fin");
-    }
-
-    private void clearSlot(int slotNum)
-    {//remove cards and reset aviablity
-        removeDiaglog();
-
-        alienDeck[slotNum].gameObject.SetActive(false);
-        playerDeck[slotNum].gameObject.SetActive(false);
-
-        alienDeck.Remove(alienDeck[slotNum]);
-        playerDeck.Remove(playerDeck[slotNum]);
-
-        playerAvaibleSlots[slotNum] = true;
-        alienAvaibleSlots[slotNum] = true;
-
-        player.canPlayCard = true;
-        alien.canPlayCard = true;
     }
 }

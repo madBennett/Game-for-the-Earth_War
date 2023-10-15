@@ -7,12 +7,11 @@ public class Card : MonoBehaviour
 {
     [Header("Inscribed")]
 
-    private Vector3 ogPos;
     private Vector3 pos;
     private Vector3 bouncePos;
     private bool bounced = false;
     private bool isMouseOver = false;
-    //private Rigidbody rigidBody;
+    private float volume = 1f;
     
     public AudioSource audioSource;
 
@@ -25,26 +24,19 @@ public class Card : MonoBehaviour
 
     void Start()
     {
-        //ogPos = new Vector3(-50, -50, 0);
         pos = this.transform.position;
         bouncePos = pos;
         bouncePos.y += bounceHeight;
-        //rigidBody = gameObject.GetComponent<Rigidbody>();//rigidbody get
     }
 
-    public void setOgPosAtCurPos()
+    public void setVolume(float inVol)
     {
-        ogPos = this.transform.position;
+        volume = inVol;
     }
 
     public bool wasMouseOver()
     {
         return isMouseOver;
-    }
-
-    public void moveToOgPos()
-    {
-        this.transform.position = ogPos;
     }
 
     public void move(Vector3 inMovePos)
@@ -60,7 +52,7 @@ public class Card : MonoBehaviour
         if (faceUp)
         {
             this.transform.RotateAround(transform.position, Vector3.up, 180);
-            audioSource.PlayOneShot(cardFlip, 0.5f);
+            audioSource.PlayOneShot(cardFlip, volume);
         }
         else
         {
