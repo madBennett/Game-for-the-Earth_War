@@ -181,7 +181,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Place instructs here
+  m_text: "-Each player will get half of the deck at the start of the game\r\n-Each
+    player will have a hand of 5 they can play from\r\n-After both players have played
+    a card the card with the highest value will win and take both cards unless the
+    conditions for war are met\r\n-War occurs if the players both play a card with
+    the same suit or number value\r\n-When war occurs each play will play 3 cards\r\n-Each
+    card will be compared with the opposites players matching card\r\n-To win a round
+    of war the player will need to have the higher value\r\n\t-If both have the same
+    value it will be evaluated based on suit precedence: \r\n{Club, Diamond, Heart,
+    Spade}\r\n-To win the game the player needs to take all the other players cards
+    or have most of the total deck when the timer runs out if it is a timed match\r\n-For
+    God Mode: ==========\r\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -208,13 +218,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 37.3
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -894,7 +904,7 @@ GameObject:
   - component: {fileID: 1652970885}
   - component: {fileID: 1652970884}
   m_Layer: 5
-  m_Name: Start God Mode
+  m_Name: Return to Start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

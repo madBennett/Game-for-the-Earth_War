@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
         player = FindObjectOfType<User>();
         played_Cards = FindObjectOfType<Played_Cards>();
 
-        deckSize = deck.Count;
+        //deckSize = deck.Count;
     }
 
     void Update()
@@ -108,13 +108,13 @@ public class GameManager : MonoBehaviour
         {
             if (timeLeft > 0)
             {
+                
+                int minLeft = Mathf.FloorToInt(timeLeft / 60);
+                int secLeft = Mathf.FloorToInt(timeLeft % 60);
+
+                timer.text = string.Format("{0:00} : {1:00}", minLeft, secLeft);
                 timeLeft -= Time.deltaTime;
             }
-
-            int minLeft = Mathf.FloorToInt(timeLeft / 60);
-            int secLeft = Mathf.FloorToInt(timeLeft % 60);
-
-            timer.text = string.Format("{0:00} : {1:00}", minLeft, secLeft);
         }
     }
 
