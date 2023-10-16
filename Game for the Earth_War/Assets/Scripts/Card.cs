@@ -7,20 +7,25 @@ public class Card : MonoBehaviour
 {
     [Header("Inscribed")]
 
+    //Object References
+    public AudioSource audioSource;
+
+    //Gameplay
     private Vector3 pos;
     private Vector3 bouncePos;
     private bool bounced = false;
     private bool isMouseOver = false;
-    private float volume = 1f;
-    
-    public AudioSource audioSource;
 
     public float bounceHeight = 0.25f;
+
     public int num;
     public int suit;
     public bool isPlayableCard = true;
     public bool faceUp = true;
+
+    //Audio
     public AudioClip cardFlip;
+    private float volume = 1f;
 
     void Start()
     {
@@ -72,6 +77,10 @@ public class Card : MonoBehaviour
 
             isMouseOver = true;
         }
+        else
+        {
+            isMouseOver = false;
+        }
     }
 
     void OnMouseExit()
@@ -83,8 +92,7 @@ public class Card : MonoBehaviour
                 this.transform.position = pos;
                 bounced = false;
             }
-
-            isMouseOver = false;
         }
+        isMouseOver = false;
     }
 }

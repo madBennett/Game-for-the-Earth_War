@@ -9,19 +9,16 @@ public class Played_Cards : MonoBehaviour
 {
     [Header("Inscribed")]
 
+    //Object References
     private Alien alien;
     private User player;
     private GameManager gm;
 
-    private int warOccurances = 0;
-
     public AudioSource audioSource;
 
+    //GamePlay
+    public int defalutSlotNum = 1;
     public WinType winType = WinType.ERROR;
-
-    public List<Card> playerDeck = new List<Card>();
-    public List<Card> alienDeck = new List<Card>();
-    public List<Card> warPool = new List<Card>();
 
     public Transform[] playerCardSlots;
     public Transform[] alienCardSlots;
@@ -29,9 +26,15 @@ public class Played_Cards : MonoBehaviour
     public bool[] playerAvaibleSlots;
     public bool[] alienAvaibleSlots;
 
-    public int defalutSlotNum = 1;
+    public List<Card> playerDeck = new List<Card>();
+    public List<Card> alienDeck = new List<Card>();
+    public List<Card> warPool = new List<Card>();
+
+    //Text
     public TextMeshProUGUI dialogText;
     public GameObject dialogBox;
+
+    //Audio
     public AudioClip happyAlien;
     public List<AudioClip> AngryAlien = new List<AudioClip>();
 
@@ -44,7 +47,6 @@ public class Played_Cards : MonoBehaviour
         WAR
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         alien = FindObjectOfType<Alien>();
@@ -57,12 +59,6 @@ public class Played_Cards : MonoBehaviour
             alienAvaibleSlots[i] = true;
         }
         removeDiaglog();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-         
     }
 
     public void addToPlayed(bool isPlayer, Card playedCard, int slotNum)
@@ -92,35 +88,24 @@ public class Played_Cards : MonoBehaviour
 
     public void beginWar()
     {
-        //war behavoir
-        warOccurances++;
-
-        alien.currWarSlot = 0;
-        player.currWarSlot = 0;
-
-        alien.warScore = 0;
-        player.warScore = 0;
-
-        gm.checkCards = true;
-
-        //alien.canPlayCard = true;
-        //player.canPlayCard = true;
-
-        //add dialog to instruct player on rules of war
-        if (warOccurances == 1)//first time remove?????????????/
+        if (player.card_Deck_And_Slots.deck.Count < playerCardSlots.Length)
         {
-            alien.canPlayCard = false;
-            player.canPlayCard = false;
-
-            //displayDialog("Hows the battle go you ask?\nDont you know its your peoples game.");
-            //Invoke("removeDiaglog", 1f);
-
-            alien.canPlayCard = true;
-            player.canPlayCard = true;
+            gm.overAllAlienWin();
         }
+        else if (alien.card_Deck_And_Slots.deck.Count < alienCardSlots.Length)
+        {
+            gm.overAllPlayerWin();
+        }
+        else
+        {
+            alien.currWarSlot = 0;
+            player.currWarSlot = 0;
 
+            alien.warScore = 0;
+            player.warScore = 0;
 
-        //Debug.Log("Begin war fin");
+            gm.checkCards = true;
+        }
     }
 
     public void findWinNormPlay(int slotNum)
@@ -133,7 +118,7 @@ public class Played_Cards : MonoBehaviour
 
             alienCard.flip();
 
-            //winType = WinType.ERROR;
+            winType = WinType.ERROR;
 
             if ((alienCard.num == playerCard.num) || (alienCard.suit == playerCard.suit) 
                 || (false))
@@ -277,7 +262,7 @@ public class Played_Cards : MonoBehaviour
             }
         }
 
-        Invoke("clearPostWar", 1f);//if at 0 no issues but high odd mov,emt error
+        Invoke("clearPostWar", 1f);
         winType = WinType.ERROR;
     }
 

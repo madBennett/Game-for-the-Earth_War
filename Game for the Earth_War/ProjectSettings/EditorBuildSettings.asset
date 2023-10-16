@@ -6,6 +6,24 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Main Game Scene.unity
+    path: Assets/Scenes/Start Screen.unity
+    guid: c4f34fc4bf161204da8ec013a9d8e5da
+  - enabled: 1
+    path: Assets/Scenes/Instructions.unity
+    guid: d3cdfd976cc376148ba070dbc49d9133
+  - enabled: 1
+    path: Assets/Scenes/Gameplays/Game_Normal Play.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Gameplays/Game_Timed Play.unity
+    guid: b5ea363939cce4e489f0c30c7e49c0ba
+  - enabled: 1
+    path: Assets/Scenes/Gameplays/Game_God Mode.unity
+    guid: 2eb050106f073f24e961e6ac13cb301c
+  - enabled: 1
+    path: Assets/Scenes/Game Over Scenes/Gameover_Player Loss.unity
+    guid: 24aa8cad1f86a2c449649d281eda68e2
+  - enabled: 1
+    path: Assets/Scenes/Game Over Scenes/Gameover_Player Win.unity
+    guid: 1b90d4a265a441346b4f6938bf665dd0
   m_configObjects: {}

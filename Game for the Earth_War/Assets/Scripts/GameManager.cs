@@ -1,37 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     [Header("Inscribed")]
 
-    private int deckSize = 52;
+    //Object Refrences
     private Alien alien;
     private User player;
     private Played_Cards played_Cards;
 
+    //Gameplay
+    private int deckSize = 52;
+
     public float waitTime = 2f;
     public float startTime = 999;
-    public float volume = 1f;
+
     public int defalutSlotNum = 1;
     public bool checkCards = false; //prevents cards being checked mutliple times
     public bool isWar = false;
+
     public List<Card> deck = new List<Card>();
 
-    // Start is called before the first frame update
+    //Audio
+    public float volume = 1f;
+
+    //Timer
+    public bool isTimed = false;
+    public TextMeshProUGUI timer;
+    public float timeLeft = 300f; //in seconds
+
     void Start()
     {
         alien = FindObjectOfType<Alien>();
         player = FindObjectOfType<User>();
         played_Cards = FindObjectOfType<Played_Cards>();
+
+        deckSize = deck.Count;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (!(player.card_Deck_And_Slots.deck.Count == 0) || !(player.card_Deck_And_Slots.deck.Count == 0) 
-            || !(true))//replace true with timer
+        if (((!(player.card_Deck_And_Slots.deck.Count == 0) || !(player.card_Deck_And_Slots.deck.Count == 0))
+            && !(isTimed && timeLeft < 0)))
         {
             if (!isWar)
             {
@@ -78,6 +92,29 @@ public class GameManager : MonoBehaviour
             //exit screens
             alien.canPlayCard = false;
             player.canPlayCard = false;
+
+            if ((player.card_Deck_And_Slots.deck.Count == 0) 
+                || (isTimed && alien.card_Deck_And_Slots.deck.Count > player.card_Deck_And_Slots.deck.Count))
+            {
+                overAllAlienWin();
+            }
+            else
+            {
+                overAllPlayerWin();
+            }
+        }
+
+        if (isTimed)
+        {
+            if (timeLeft > 0)
+            {
+                timeLeft -= Time.deltaTime;
+            }
+
+            int minLeft = Mathf.FloorToInt(timeLeft / 60);
+            int secLeft = Mathf.FloorToInt(timeLeft % 60);
+
+            timer.text = string.Format("{0:00} : {1:00}", minLeft, secLeft);
         }
     }
 
@@ -100,4 +137,13 @@ public class GameManager : MonoBehaviour
         return playerDeck;
     }
 
+    public void overAllAlienWin()
+    {
+        SceneManager.LoadScene("Gameover_Player Loss");
+    }
+
+    public void overAllPlayerWin()
+    {
+        SceneManager.LoadScene("Gameover_Player Win");
+    }
 }

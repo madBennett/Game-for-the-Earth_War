@@ -8,13 +8,23 @@ using TMPro;
 public class Card_Deck_and_Slots : MonoBehaviour
 {
     [Header("Inscribed")]
-    private int playableDeckSize = 5;
+
+    //Object References
     private Played_Cards played_Cards;
+
+    //Gameplay
+    private int playableDeckSize = 5;
+
+    public int deckSize;
+    public float suffleChance = 0.01f;
+
+    public Transform[] cardSlots;
+    public bool[] avaibleSlots;
 
     public List<Card> deck = new List<Card>();
     public List<Card> playableDeck = new List<Card>();
-    public Transform[] cardSlots;
-    public bool[] avaibleSlots;
+
+    //Text
     public TextMeshProUGUI deckSizeText;
 
     // Start is called before the first frame update
@@ -48,38 +58,38 @@ public class Card_Deck_and_Slots : MonoBehaviour
     //fill card slots functionality at index
     public void fillCardSlot(int slotNum, bool isPlayer)
     {
-        if (deck.Count > playableDeckSize + 1)//account for playable deck and played card
+        if (deck.Count > playableDeckSize)//account for playable deck and played card
         {//DOESNT FULLY WORK CAUSES WIN COND NOT TO WORK SINCE LAT CARD IS NOT BEING PUT OUT
             if (avaibleSlots[slotNum])
             {
                 //insure card is not already choosen or played
-                Card randCard;
-                do//causes infinate loop when deck too small
+                Card newCard;
+                int i = 0;
+                do
                 {
-                    randCard = deck[Random.Range(0, deck.Count - 1)];
-                } while ((playableDeck.Contains(randCard)) || (played_Cards.playerDeck.Contains(randCard)) 
-                || (played_Cards.alienDeck.Contains(randCard)) || (played_Cards.warPool.Contains(randCard)));
+                    newCard = deck[i];
+                    i++;
+                } while ((i < deck.Count) && 
+                ((playableDeck.Contains(newCard)) 
+                || (played_Cards.playerDeck.Contains(newCard))
+                || (played_Cards.alienDeck.Contains(newCard)) //add way to check with is player
+                || (played_Cards.warPool.Contains(newCard))));
 
-                int chosenSlot = slotNum;
-                /*  Test later
-                if (slotNum >= 1 && slotNum > avaibleSlots.Length/2)
-                {
-                    chosenSlot = (avaibleSlots[slotNum - 1]) ? slotNum - 1 : slotNum;
-                }
-                else if (slotNum < avaibleSlots.Length - 1 && slotNum < avaibleSlots.Length/2)
-                {
-                    chosenSlot = (avaibleSlots[slotNum + 1]) ? slotNum + 1 : slotNum;
-                }
-                */
                 if (!isPlayer)
                 {
-                    randCard.flip();
+                    newCard.flip();
                 }
-                randCard.move(cardSlots[chosenSlot].position);
-                randCard.gameObject.SetActive(true);
-                playableDeck.Insert(chosenSlot, randCard);
-                avaibleSlots[chosenSlot] = false;
-                return;
+                newCard.move(cardSlots[slotNum].position);
+                newCard.gameObject.SetActive(true);
+                newCard.isPlayableCard = isPlayer;
+                playableDeck.Insert(slotNum, newCard);
+                avaibleSlots[slotNum] = false;
+                playableDeckSize = playableDeck.Count;
+                
+                if ((Random.Range(0,100)/100f) <= suffleChance)
+                {
+                    suffle();
+                }
             }
         }
     }
@@ -90,5 +100,17 @@ public class Card_Deck_and_Slots : MonoBehaviour
         inCard.isPlayableCard = isPlayer;
 
         deck.Add(inCard);
+    }
+
+    public void suffle()
+    {
+        for (int i = 0; i < deck.Count; i++)
+        {
+            Card tempCard = deck[i];
+            int randIndex = Random.Range(0, deck.Count - 1);
+            deck[i] = deck[randIndex];
+            deck[randIndex] = tempCard;
+
+        }
     }
 }
