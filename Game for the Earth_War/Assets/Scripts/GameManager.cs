@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (((!(player.card_Deck_And_Slots.deck.Count == 0) || !(player.card_Deck_And_Slots.deck.Count == 0))
+        if (((!(player.card_Deck_And_Slots.deck.Count == 0) && !(alien.card_Deck_And_Slots.deck.Count == 0))
             && !(isTimed && timeLeft < 0)))
         {
             if (!isWar)
@@ -93,14 +93,14 @@ public class GameManager : MonoBehaviour
             alien.canPlayCard = false;
             player.canPlayCard = false;
 
-            if ((player.card_Deck_And_Slots.deck.Count == 0) 
-                || (isTimed && alien.card_Deck_And_Slots.deck.Count > player.card_Deck_And_Slots.deck.Count))
+            if ((alien.card_Deck_And_Slots.deck.Count == 0) 
+                || (isTimed && player.card_Deck_And_Slots.deck.Count > alien.card_Deck_And_Slots.deck.Count))
             {
-                overAllAlienWin();
+                overAllPlayerWin();
             }
             else
             {
-                overAllPlayerWin();
+                overAllAlienWin();
             }
         }
 
