@@ -33,13 +33,14 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI timer;
     public float timeLeft = 300f; //in seconds
 
+    //God Mode
+    public bool isGodMode = false;
+
     void Start()
     {
         alien = FindObjectOfType<Alien>();
         player = FindObjectOfType<User>();
         played_Cards = FindObjectOfType<Played_Cards>();
-
-        //deckSize = deck.Count;
     }
 
     void Update()

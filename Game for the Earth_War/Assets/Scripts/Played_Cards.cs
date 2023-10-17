@@ -33,11 +33,11 @@ public class Played_Cards : MonoBehaviour
     //Text
     public TextMeshProUGUI dialogText;
     public GameObject dialogBox;
+    public TextMeshProUGUI godModeAlienCard;
 
     //Audio
     public AudioClip happyAlien;
     public List<AudioClip> AngryAlien = new List<AudioClip>();
-
 
     public enum WinType
     {
@@ -74,6 +74,8 @@ public class Played_Cards : MonoBehaviour
             alienDeck.Insert(slotNum, playedCard);
             playedCard.move(alienCardSlots[slotNum].position);
             alienAvaibleSlots[slotNum] = false;
+            //add alien card text additive bc war
+            godModeAlienCard.text += "\n" + playedCard;
         }
 
         if (gm.isWar)
@@ -209,15 +211,21 @@ public class Played_Cards : MonoBehaviour
             {
                 case WinType.PLAYER_WIN:
                     //player win
-                    player.card_Deck_And_Slots.addToDeck(alienCard, true);
-                    alien.card_Deck_And_Slots.deck.Remove(alienCard);
+                    if (!gm.isGodMode)
+                    {
+                        player.card_Deck_And_Slots.addToDeck(alienCard, true);
+                        alien.card_Deck_And_Slots.deck.Remove(alienCard);
+                    }
                     winType = WinType.ERROR;
                     break;
 
                 case WinType.ALIEN_WIN:
                     //alien win
-                    alien.card_Deck_And_Slots.addToDeck(playerCard, false);
-                    player.card_Deck_And_Slots.deck.Remove(playerCard);
+                    if (!gm.isGodMode)
+                    {
+                        alien.card_Deck_And_Slots.addToDeck(playerCard, false);
+                        player.card_Deck_And_Slots.deck.Remove(playerCard);
+                    }
                     winType = WinType.ERROR;
                     break;
 
@@ -225,6 +233,7 @@ public class Played_Cards : MonoBehaviour
                     //war
                     warPool.Add(alienCard);
                     warPool.Add(playerCard);
+                    //move cards
                     beginWar();
                     break;
 
@@ -239,26 +248,29 @@ public class Played_Cards : MonoBehaviour
 
     public void finishWarPlay(bool playerWin)
     {
-        if (playerWin)
+        if (!gm.isGodMode)
         {
-            alien.card_Deck_And_Slots.deck.Remove(warPool[0]);
-
-            player.card_Deck_And_Slots.addToDeck(warPool[0], true);
-            for (int i = 0; i < alienAvaibleSlots.Length; i++)
+            if (playerWin)
             {
-                player.card_Deck_And_Slots.addToDeck(alienDeck[i], true);
-                alien.card_Deck_And_Slots.deck.Remove(alienDeck[i]);
+                alien.card_Deck_And_Slots.deck.Remove(warPool[0]);
+
+                player.card_Deck_And_Slots.addToDeck(warPool[0], true);
+                for (int i = 0; i < alienAvaibleSlots.Length; i++)
+                {
+                    player.card_Deck_And_Slots.addToDeck(alienDeck[i], true);
+                    alien.card_Deck_And_Slots.deck.Remove(alienDeck[i]);
+                }
             }
-        }
-        else
-        {
-            player.card_Deck_And_Slots.deck.Remove(warPool[1]);
-
-            alien.card_Deck_And_Slots.addToDeck(warPool[1], false);
-            for (int i = 0; i < playerAvaibleSlots.Length; i++)
+            else
             {
-                alien.card_Deck_And_Slots.addToDeck(playerDeck[i], false);
-                player.card_Deck_And_Slots.deck.Remove(playerDeck[i]);
+                player.card_Deck_And_Slots.deck.Remove(warPool[1]);
+
+                alien.card_Deck_And_Slots.addToDeck(warPool[1], false);
+                for (int i = 0; i < playerAvaibleSlots.Length; i++)
+                {
+                    alien.card_Deck_And_Slots.addToDeck(playerDeck[i], false);
+                    player.card_Deck_And_Slots.deck.Remove(playerDeck[i]);
+                }
             }
         }
 
@@ -304,6 +316,8 @@ public class Played_Cards : MonoBehaviour
 
         player.canPlayCard = true;
         alien.canPlayCard = true;
+
+        godModeAlienCard.text = "Alien Played: ";
     }
 
     private void clearPostWar()
