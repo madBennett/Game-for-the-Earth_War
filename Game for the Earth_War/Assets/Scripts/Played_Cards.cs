@@ -74,8 +74,10 @@ public class Played_Cards : MonoBehaviour
             alienDeck.Insert(slotNum, playedCard);
             playedCard.move(alienCardSlots[slotNum].position);
             alienAvaibleSlots[slotNum] = false;
-            //add alien card text additive bc war
-            godModeAlienCard.text += "\n" + playedCard;
+            if (gm.isGodMode)
+            {
+                godModeAlienCard.text += "\n" + playedCard;
+            }
         }
 
         if (gm.isWar)
@@ -317,7 +319,10 @@ public class Played_Cards : MonoBehaviour
         player.canPlayCard = true;
         alien.canPlayCard = true;
 
-        godModeAlienCard.text = "Alien Played: ";
+        if (gm.isGodMode)
+        {
+            godModeAlienCard.text = "Alien Played: ";
+        }
     }
 
     private void clearPostWar()
