@@ -48,10 +48,9 @@ public class Alien : MonoBehaviour
 
             //place played card into playedCard deck
             played_Cards.addToPlayed(false, playedCard, slotNum);
-            //card_Deck_And_Slots.deck.Remove(playedCard);
             canPlayCard = false;
 
-            card_Deck_And_Slots.fillCardSlot(i, false);
+            //card_Deck_And_Slots.fillCardSlots( false);
 
             return true;
         }

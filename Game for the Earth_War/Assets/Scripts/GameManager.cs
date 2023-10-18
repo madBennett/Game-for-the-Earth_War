@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     private User player;
     private Played_Cards played_Cards;
 
+    public AudioSource backgroundAudioSource;
+
     //Gameplay
     private int deckSize = 52;
 
@@ -26,6 +28,8 @@ public class GameManager : MonoBehaviour
     public List<Card> deck = new List<Card>();
 
     //Audio
+    private bool isMuted = false;
+
     public float volume = 1f;
 
     //Timer
@@ -41,11 +45,21 @@ public class GameManager : MonoBehaviour
         alien = FindObjectOfType<Alien>();
         player = FindObjectOfType<User>();
         played_Cards = FindObjectOfType<Played_Cards>();
+
+        backgroundAudioSource.Play();
     }
 
     void Update()
     {
-        if (((!(player.card_Deck_And_Slots.deck.Count == 0) && !(alien.card_Deck_And_Slots.deck.Count == 0))
+        //mute background if space pressed
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            isMuted = !isMuted;
+            backgroundAudioSource.mute = isMuted;
+        }
+
+        //gameplay
+        if (((!(player.card_Deck_And_Slots.getTotalDeckCount() == 0) && !(alien.card_Deck_And_Slots.getTotalDeckCount() == 0))
             && !(isTimed && timeLeft < 0)))
         {
             if (!isWar)
@@ -94,8 +108,8 @@ public class GameManager : MonoBehaviour
             alien.canPlayCard = false;
             player.canPlayCard = false;
 
-            if ((alien.card_Deck_And_Slots.deck.Count == 0) 
-                || (isTimed && player.card_Deck_And_Slots.deck.Count > alien.card_Deck_And_Slots.deck.Count))
+            if ((alien.card_Deck_And_Slots.getTotalDeckCount() == 0) 
+                || (isTimed && player.card_Deck_And_Slots.getTotalDeckCount() > alien.card_Deck_And_Slots.getTotalDeckCount()))
             {
                 overAllPlayerWin();
             }

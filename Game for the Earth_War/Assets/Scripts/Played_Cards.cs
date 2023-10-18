@@ -37,6 +37,7 @@ public class Played_Cards : MonoBehaviour
 
     //Audio
     public AudioClip happyAlien;
+    public AudioClip warAudio;
     public List<AudioClip> AngryAlien = new List<AudioClip>();
 
     public enum WinType
@@ -92,11 +93,11 @@ public class Played_Cards : MonoBehaviour
 
     public void beginWar()
     {
-        if (player.card_Deck_And_Slots.deck.Count < playerCardSlots.Length)
+        if (player.card_Deck_And_Slots.playableDeck.Count < playerCardSlots.Length)//testing
         {
             gm.overAllAlienWin();
         }
-        else if (alien.card_Deck_And_Slots.deck.Count < alienCardSlots.Length)
+        else if (alien.card_Deck_And_Slots.playableDeck.Count < alienCardSlots.Length)//testing
         {
             gm.overAllPlayerWin();
         }
@@ -190,14 +191,20 @@ public class Played_Cards : MonoBehaviour
             if (winType == WinType.ALIEN_WIN)
             {
                 alien.warScore++;
-                playHappyAlienDialog();
             }
             else
             {
                 player.warScore++;
-                playAngryAlienAudio();
             }
             displayDialog("Its\n" + player.warScore + "to " + alien.warScore);
+            if (player.warScore == 3)
+            {
+                playAngryAlienAudio();
+            }
+            else
+            {
+                playHappyAlienDialog();
+            }
         }
     }
 
@@ -216,7 +223,8 @@ public class Played_Cards : MonoBehaviour
                     if (!gm.isGodMode)
                     {
                         player.card_Deck_And_Slots.addToDeck(alienCard, true);
-                        alien.card_Deck_And_Slots.deck.Remove(alienCard);
+                        player.card_Deck_And_Slots.addToDeck(playerCard, true);//testing
+                        //alien.card_Deck_And_Slots.deck.Remove(alienCard);
                     }
                     winType = WinType.ERROR;
                     break;
@@ -226,7 +234,8 @@ public class Played_Cards : MonoBehaviour
                     if (!gm.isGodMode)
                     {
                         alien.card_Deck_And_Slots.addToDeck(playerCard, false);
-                        player.card_Deck_And_Slots.deck.Remove(playerCard);
+                        alien.card_Deck_And_Slots.addToDeck(alienCard, false);//testing
+                        //player.card_Deck_And_Slots.deck.Remove(playerCard);
                     }
                     winType = WinType.ERROR;
                     break;
@@ -235,6 +244,9 @@ public class Played_Cards : MonoBehaviour
                     //war
                     warPool.Add(alienCard);
                     warPool.Add(playerCard);
+                    alien.card_Deck_And_Slots.deck.Remove(warPool[0]);
+                    player.card_Deck_And_Slots.deck.Remove(warPool[1]);
+                    playWarDialog();
                     //move cards
                     beginWar();
                     break;
@@ -254,24 +266,31 @@ public class Played_Cards : MonoBehaviour
         {
             if (playerWin)
             {
-                alien.card_Deck_And_Slots.deck.Remove(warPool[0]);
 
-                player.card_Deck_And_Slots.addToDeck(warPool[0], true);
+                for (int i = warPool.Count - 1; i >= 0; i--)
+                {
+                    player.card_Deck_And_Slots.addToDeck(warPool[i], true);
+                }
+
                 for (int i = 0; i < alienAvaibleSlots.Length; i++)
                 {
                     player.card_Deck_And_Slots.addToDeck(alienDeck[i], true);
-                    alien.card_Deck_And_Slots.deck.Remove(alienDeck[i]);
+                    player.card_Deck_And_Slots.addToDeck(playerDeck[i], true);//testing
+                    //alien.card_Deck_And_Slots.deck.Remove(alienDeck[i]);
                 }
             }
             else
             {
-                player.card_Deck_And_Slots.deck.Remove(warPool[1]);
+                for (int i = warPool.Count - 1; i >= 0; i--)
+                {
+                    alien.card_Deck_And_Slots.addToDeck(warPool[i], false);
+                }
 
-                alien.card_Deck_And_Slots.addToDeck(warPool[1], false);
                 for (int i = 0; i < playerAvaibleSlots.Length; i++)
                 {
                     alien.card_Deck_And_Slots.addToDeck(playerDeck[i], false);
-                    player.card_Deck_And_Slots.deck.Remove(playerDeck[i]);
+                    alien.card_Deck_And_Slots.addToDeck(alienDeck[i], false);//testing
+                    //player.card_Deck_And_Slots.deck.Remove(playerDeck[i]);
                 }
             }
         }
@@ -303,6 +322,11 @@ public class Played_Cards : MonoBehaviour
         audioSource.PlayOneShot(happyAlien, gm.volume);
     }
 
+    public void playWarDialog()
+    {
+        audioSource.PlayOneShot(warAudio, gm.volume);
+    }
+
     private void clearSlot(int slotNum)
     {//remove cards and reset aviablity
         removeDiaglog();
@@ -323,6 +347,11 @@ public class Played_Cards : MonoBehaviour
         {
             godModeAlienCard.text = "Alien Played: ";
         }
+
+
+
+        alien.card_Deck_And_Slots.fillCardSlots(false);
+        player.card_Deck_And_Slots.fillCardSlots(true);
     }
 
     private void clearPostWar()

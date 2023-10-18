@@ -36,12 +36,12 @@ public class Card_Deck_and_Slots : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        deckSizeText.text = deck.Count.ToString("#,0");
+        deckSizeText.text = getTotalDeckCount().ToString("#,0");
     }
 
     public void setUpSlots(bool isPlayer)
     {
-        for (int i = 0; i < cardSlots.Length; i++)
+        for (int i = cardSlots.Length - 1; i >= 0; i--)
         {
             Card newCard = deck[i];
             if (!isPlayer)
@@ -52,13 +52,48 @@ public class Card_Deck_and_Slots : MonoBehaviour
             newCard.gameObject.SetActive(true);
             playableDeck.Add(newCard);
             avaibleSlots[i] = false;
+            deck.Remove(newCard);
+        }
+    }
+
+    public void fillCardSlots(bool isPlayer)
+    {
+        for (int i = 0; i < avaibleSlots.Length; i++)
+        {
+            if ((deck.Count > 0)) //account for playable deck and played card
+            {
+                Card newCard = deck[0];
+
+                for (int slotNum = 0; slotNum < avaibleSlots.Length; slotNum++)
+                {
+                    if (avaibleSlots[slotNum])
+                    {
+                        if (!isPlayer)
+                        {
+                            newCard.flip();
+                        }
+                        newCard.move(cardSlots[slotNum].position);
+                        newCard.gameObject.SetActive(true);
+                        newCard.isPlayableCard = isPlayer;
+                        playableDeck.Insert(slotNum, newCard);
+                        avaibleSlots[slotNum] = false;
+                        deck.Remove(newCard);//testing
+
+                        if ((Random.Range(0, 100) / 100f) <= suffleChance)
+                        {
+                            suffle();
+                        }
+                        break;
+                    }
+                }
+            }
         }
     }
 
     //fill card slots functionality at index
     public void fillCardSlot(int slotNum, bool isPlayer)
     {
-        if (deck.Count > playableDeckSize)//account for playable deck and played card
+        if ((deck.Count >= playableDeckSize)) //account for playable deck and played card
         {//DOESNT FULLY WORK CAUSES WIN COND NOT TO WORK SINCE LAT CARD IS NOT BEING PUT OUT
             if (avaibleSlots[slotNum])
             {
@@ -112,5 +147,10 @@ public class Card_Deck_and_Slots : MonoBehaviour
             deck[randIndex] = tempCard;
 
         }
+    }
+
+    public int getTotalDeckCount()
+    {
+        return (deck.Count + playableDeck.Count);
     }
 }

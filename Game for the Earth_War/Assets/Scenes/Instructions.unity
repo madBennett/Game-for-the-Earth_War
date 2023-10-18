@@ -193,7 +193,7 @@ MonoBehaviour:
     or have most of the total deck when the timer runs out if it is a timed match\r\n-For
     God Mode: The card/cards the alien has played will be displayed in the order
     it was played\r\n\t-The player and alien will also not be able to lose cards
-    in this mode\r\n"
+    in this mode\r\n-To mute background music press the space bar"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -220,7 +220,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 34.85
+  m_fontSize: 32.65
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

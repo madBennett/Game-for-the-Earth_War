@@ -25,6 +25,12 @@ public class User : MonoBehaviour
         played_Cards = FindObjectOfType<Played_Cards>();
 
         card_Deck_And_Slots.deck = gm.getStartingDeck(true);
+
+        for (int i = 21; i >0; i--)
+        {
+            card_Deck_And_Slots.deck.RemoveAt(i);
+        }
+
         card_Deck_And_Slots.setUpSlots(true);
     }
 
@@ -34,7 +40,7 @@ public class User : MonoBehaviour
 
     public bool playCard(int slotNum)
     {
-        if ((canPlayCard || played_Cards.playerAvaibleSlots[slotNum]) && (card_Deck_And_Slots.deck.Count > 0))
+        if ((canPlayCard || played_Cards.playerAvaibleSlots[slotNum]) && (card_Deck_And_Slots.getTotalDeckCount() > 0))
         {
             //select card
             if (Input.GetMouseButtonDown(0))
@@ -53,16 +59,9 @@ public class User : MonoBehaviour
                         //place played card into playedCard deck
                         canPlayCard = false;
                         played_Cards.addToPlayed(true, playedCard, slotNum);
-                        //card_Deck_And_Slots.deck.Remove(playedCard);
                         playedCard.isPlayableCard = false;
-
-                        //add delay
-                        //Invoke("findWinnerNormPlay", 3f);
                         gm.startTime = Time.time;
-                        
-                        //played_Cards.opCardsPlayed(slotNum);
-
-                        card_Deck_And_Slots.fillCardSlot(i, true);
+                        //card_Deck_And_Slots.fillCardSlots(true);
 
                         return true;
                     }
