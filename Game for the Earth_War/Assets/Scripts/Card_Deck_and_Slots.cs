@@ -13,8 +13,6 @@ public class Card_Deck_and_Slots : MonoBehaviour
     private Played_Cards played_Cards;
 
     //Gameplay
-    private int playableDeckSize = 5;
-
     public int deckSize;
     public float suffleChance = 0.01f;
 
@@ -22,7 +20,7 @@ public class Card_Deck_and_Slots : MonoBehaviour
     public bool[] avaibleSlots;
 
     public List<Card> deck = new List<Card>();
-    public List<Card> playableDeck = new List<Card>();
+    public Card[] playableDeck;
 
     //Text
     public TextMeshProUGUI deckSizeText;
@@ -50,7 +48,7 @@ public class Card_Deck_and_Slots : MonoBehaviour
             }
             newCard.move(cardSlots[i].position);
             newCard.gameObject.SetActive(true);
-            playableDeck.Add(newCard);
+            playableDeck[i] = newCard;
             avaibleSlots[i] = false;
             deck.Remove(newCard);
         }
@@ -75,7 +73,7 @@ public class Card_Deck_and_Slots : MonoBehaviour
                         newCard.move(cardSlots[slotNum].position);
                         newCard.gameObject.SetActive(true);
                         newCard.isPlayableCard = isPlayer;
-                        playableDeck.Insert(slotNum, newCard);
+                        playableDeck[slotNum] = newCard;
                         avaibleSlots[slotNum] = false;
                         deck.Remove(newCard);//testing
 
@@ -85,45 +83,6 @@ public class Card_Deck_and_Slots : MonoBehaviour
                         }
                         break;
                     }
-                }
-            }
-        }
-    }
-
-    //fill card slots functionality at index
-    public void fillCardSlot(int slotNum, bool isPlayer)
-    {
-        if ((deck.Count >= playableDeckSize)) //account for playable deck and played card
-        {//DOESNT FULLY WORK CAUSES WIN COND NOT TO WORK SINCE LAT CARD IS NOT BEING PUT OUT
-            if (avaibleSlots[slotNum])
-            {
-                //insure card is not already choosen or played
-                Card newCard;
-                int i = 0;
-                do
-                {
-                    newCard = deck[i];
-                    i++;
-                } while ((i < deck.Count) && 
-                ((playableDeck.Contains(newCard)) 
-                || (played_Cards.playerDeck.Contains(newCard))
-                || (played_Cards.alienDeck.Contains(newCard)) //add way to check with is player
-                || (played_Cards.warPool.Contains(newCard))));
-
-                if (!isPlayer)
-                {
-                    newCard.flip();
-                }
-                newCard.move(cardSlots[slotNum].position);
-                newCard.gameObject.SetActive(true);
-                newCard.isPlayableCard = isPlayer;
-                playableDeck.Insert(slotNum, newCard);
-                avaibleSlots[slotNum] = false;
-                playableDeckSize = playableDeck.Count;
-                
-                if ((Random.Range(0,100)/100f) <= suffleChance)
-                {
-                    suffle();
                 }
             }
         }
@@ -149,8 +108,39 @@ public class Card_Deck_and_Slots : MonoBehaviour
         }
     }
 
+    public void playableRemoveAt(int index)
+    {
+        playableDeck[index] = null;
+    }
+
+    public void playableRemove(Card card)
+    {
+        for (int i = 0; i < playableDeck.Length; i++)
+        {
+            if (System.Object.ReferenceEquals(playableDeck[i], card))
+            {
+                playableDeck[i] = null;
+                return;
+            }
+        }
+    }
+
+    public int getPlayableSize()
+    {
+        int count = 0;
+        for (int i = 0; i < playableDeck.Length; i++)
+        {
+            if (!System.Object.ReferenceEquals(playableDeck[i], null))
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
     public int getTotalDeckCount()
     {
-        return (deck.Count + playableDeck.Count);
+        return (deck.Count + getPlayableSize());//account for playable deck size
     }
 }

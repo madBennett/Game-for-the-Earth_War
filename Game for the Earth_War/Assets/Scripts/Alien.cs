@@ -28,31 +28,30 @@ public class Alien : MonoBehaviour
         card_Deck_And_Slots.setUpSlots(false);
     }
 
-    void Update()
-    {
-
-    }
-
     public bool playCard(int slotNum)
     {
-        if ((canPlayCard || played_Cards.alienAvaibleSlots[slotNum]) && (card_Deck_And_Slots.deck.Count > 0))
+        if ((canPlayCard && played_Cards.alienAvaibleSlots[slotNum]) && (card_Deck_And_Slots.deck.Count > 0))
         {
             //select card
-            int i = Random.Range(0, card_Deck_And_Slots.playableDeck.Count - 1);
+            int i = Random.Range(0, card_Deck_And_Slots.getPlayableSize() - 1);
             Card playedCard = card_Deck_And_Slots.playableDeck[i];
 
-            //remove from playable deck and replace card
-            card_Deck_And_Slots.playableDeck.Remove(playedCard);
-            card_Deck_And_Slots.avaibleSlots[i] = true;
+            if (!System.Object.ReferenceEquals(playedCard, null))
+            {
+                //remove from playable deck and replace card
+                card_Deck_And_Slots.playableRemove(playedCard);
+                card_Deck_And_Slots.avaibleSlots[i] = true;
 
 
-            //place played card into playedCard deck
-            played_Cards.addToPlayed(false, playedCard, slotNum);
-            canPlayCard = false;
+                //place played card into playedCard deck
+                played_Cards.addToPlayed(false, playedCard, slotNum);
+                canPlayCard = false;
 
-            //card_Deck_And_Slots.fillCardSlots( false);
+                //card_Deck_And_Slots.fillCardSlots( false);
 
-            return true;
+                return true;
+            }
+                
         }
         return false;
     }

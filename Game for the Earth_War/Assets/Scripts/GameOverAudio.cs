@@ -9,7 +9,6 @@ public class GameOverAudio : MonoBehaviour
 
     //Audio
     public float volume = 1f;
-    public AudioClip start;
     public AudioClip playerWin;
     public AudioClip alienWin;
 
@@ -19,27 +18,13 @@ public class GameOverAudio : MonoBehaviour
 
     void Start()
     {
-        if (isStart)
-        {
-            audioSource.Play();
-        }
-        else if (isPlayerWin)
+        if (isPlayerWin)
         {
             audioSource.PlayOneShot(playerWin, volume);
         }
         else
         {
             audioSource.PlayOneShot(alienWin, volume);
-        }
-    }
-
-    void Update()
-    {
-        //mute background if space pressed
-        if (isStart && Input.GetKeyDown(KeyCode.Space))
-        {
-            isMuted = !isMuted;
-            audioSource.mute = isMuted;
         }
     }
 }

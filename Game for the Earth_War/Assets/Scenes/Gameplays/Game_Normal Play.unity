@@ -2969,6 +2969,14 @@ PrefabInstance:
       propertyPath: deckSizeText
       value: 
       objectReference: {fileID: 622290044}
+    - target: {fileID: 8002043385148511712, guid: e5294748b6b5bee40b8ae04b1af6f058, type: 3}
+      propertyPath: avaibleSlots.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8002043385148511712, guid: e5294748b6b5bee40b8ae04b1af6f058, type: 3}
+      propertyPath: playableDeck.Array.size
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8002043385148511718, guid: e5294748b6b5bee40b8ae04b1af6f058, type: 3}
       propertyPath: playedSlots.Array.size
       value: 3
@@ -3054,6 +3062,10 @@ PrefabInstance:
       propertyPath: deckSizeText
       value: 
       objectReference: {fileID: 1634724380}
+    - target: {fileID: 8457194286555383130, guid: d0d1cfec104dcfe46889182d48595eca, type: 3}
+      propertyPath: playableDeck.Array.size
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8457194286555383132, guid: d0d1cfec104dcfe46889182d48595eca, type: 3}
       propertyPath: playedSlots.Array.size
       value: 3

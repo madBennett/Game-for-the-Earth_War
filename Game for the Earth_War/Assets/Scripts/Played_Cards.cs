@@ -93,11 +93,11 @@ public class Played_Cards : MonoBehaviour
 
     public void beginWar()
     {
-        if (player.card_Deck_And_Slots.playableDeck.Count < playerCardSlots.Length)//testing
+        if (player.card_Deck_And_Slots.getPlayableSize() < playerCardSlots.Length)
         {
             gm.overAllAlienWin();
         }
-        else if (alien.card_Deck_And_Slots.playableDeck.Count < alienCardSlots.Length)//testing
+        else if (alien.card_Deck_And_Slots.getPlayableSize() < alienCardSlots.Length)
         {
             gm.overAllPlayerWin();
         }
@@ -223,8 +223,7 @@ public class Played_Cards : MonoBehaviour
                     if (!gm.isGodMode)
                     {
                         player.card_Deck_And_Slots.addToDeck(alienCard, true);
-                        player.card_Deck_And_Slots.addToDeck(playerCard, true);//testing
-                        //alien.card_Deck_And_Slots.deck.Remove(alienCard);
+                        player.card_Deck_And_Slots.addToDeck(playerCard, true);
                     }
                     winType = WinType.ERROR;
                     break;
@@ -234,8 +233,7 @@ public class Played_Cards : MonoBehaviour
                     if (!gm.isGodMode)
                     {
                         alien.card_Deck_And_Slots.addToDeck(playerCard, false);
-                        alien.card_Deck_And_Slots.addToDeck(alienCard, false);//testing
-                        //player.card_Deck_And_Slots.deck.Remove(playerCard);
+                        alien.card_Deck_And_Slots.addToDeck(alienCard, false);
                     }
                     winType = WinType.ERROR;
                     break;
@@ -275,8 +273,7 @@ public class Played_Cards : MonoBehaviour
                 for (int i = 0; i < alienAvaibleSlots.Length; i++)
                 {
                     player.card_Deck_And_Slots.addToDeck(alienDeck[i], true);
-                    player.card_Deck_And_Slots.addToDeck(playerDeck[i], true);//testing
-                    //alien.card_Deck_And_Slots.deck.Remove(alienDeck[i]);
+                    player.card_Deck_And_Slots.addToDeck(playerDeck[i], true);
                 }
             }
             else
@@ -289,8 +286,7 @@ public class Played_Cards : MonoBehaviour
                 for (int i = 0; i < playerAvaibleSlots.Length; i++)
                 {
                     alien.card_Deck_And_Slots.addToDeck(playerDeck[i], false);
-                    alien.card_Deck_And_Slots.addToDeck(alienDeck[i], false);//testing
-                    //player.card_Deck_And_Slots.deck.Remove(playerDeck[i]);
+                    alien.card_Deck_And_Slots.addToDeck(alienDeck[i], false);
                 }
             }
         }

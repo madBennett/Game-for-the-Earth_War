@@ -34,36 +34,35 @@ public class User : MonoBehaviour
         card_Deck_And_Slots.setUpSlots(true);
     }
 
-    void Update()
-    {
-    }
-
     public bool playCard(int slotNum)
     {
-        if ((canPlayCard || played_Cards.playerAvaibleSlots[slotNum]) && (card_Deck_And_Slots.getTotalDeckCount() > 0))
+        if ((canPlayCard && played_Cards.playerAvaibleSlots[slotNum]) && (card_Deck_And_Slots.getTotalDeckCount() > 0))
         {
             //select card
             if (Input.GetMouseButtonDown(0))
             {
                 //check if card clicked
-                for (int i = 0; i < card_Deck_And_Slots.playableDeck.Count; i++)
+                for (int i = 0; i < card_Deck_And_Slots.playableDeck.Length; i++)
                 {
                     Card playedCard = card_Deck_And_Slots.playableDeck[i];
-                    if (playedCard.wasMouseOver())
+                    if (!System.Object.ReferenceEquals(playedCard, null))
                     {
-                        //remove from playable deck and replace card
-                        card_Deck_And_Slots.playableDeck.Remove(playedCard);
-                        card_Deck_And_Slots.avaibleSlots[i] = true;
+                        if (playedCard.wasMouseOver())
+                        {
+                            //remove from playable deck and replace card
+                            card_Deck_And_Slots.playableRemove(playedCard);
+                            card_Deck_And_Slots.avaibleSlots[i] = true;
 
 
-                        //place played card into playedCard deck
-                        canPlayCard = false;
-                        played_Cards.addToPlayed(true, playedCard, slotNum);
-                        playedCard.isPlayableCard = false;
-                        gm.startTime = Time.time;
-                        //card_Deck_And_Slots.fillCardSlots(true);
+                            //place played card into playedCard deck
+                            canPlayCard = false;
+                            played_Cards.addToPlayed(true, playedCard, slotNum);
+                            playedCard.isPlayableCard = false;
+                            gm.startTime = Time.time;
+                            //card_Deck_And_Slots.fillCardSlots(true);
 
-                        return true;
+                            return true;
+                        }
                     }
                 }
             }
