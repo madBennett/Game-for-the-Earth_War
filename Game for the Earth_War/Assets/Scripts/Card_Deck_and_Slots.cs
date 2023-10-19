@@ -71,11 +71,12 @@ public class Card_Deck_and_Slots : MonoBehaviour
                             newCard.flip();
                         }
                         newCard.move(cardSlots[slotNum].position);
-                        newCard.gameObject.SetActive(true);
                         newCard.isPlayableCard = isPlayer;
                         playableDeck[slotNum] = newCard;
                         avaibleSlots[slotNum] = false;
-                        deck.Remove(newCard);//testing
+                        deck.Remove(newCard);
+
+                        newCard.gameObject.SetActive(true);
 
                         if ((Random.Range(0, 100) / 100f) <= suffleChance)
                         {

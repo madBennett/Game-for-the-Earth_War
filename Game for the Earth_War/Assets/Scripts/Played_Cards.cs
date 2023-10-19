@@ -255,6 +255,9 @@ public class Played_Cards : MonoBehaviour
             }
 
             clearSlot(slotNum);
+
+            alien.card_Deck_And_Slots.fillCardSlots(false);
+            player.card_Deck_And_Slots.fillCardSlots(true);
         }
     }
 
@@ -343,11 +346,6 @@ public class Played_Cards : MonoBehaviour
         {
             godModeAlienCard.text = "Alien Played: ";
         }
-
-
-
-        alien.card_Deck_And_Slots.fillCardSlots(false);
-        player.card_Deck_And_Slots.fillCardSlots(true);
     }
 
     private void clearPostWar()
@@ -361,11 +359,11 @@ public class Played_Cards : MonoBehaviour
         {
             warPool.RemoveAt(i);
         }
-
-        alien.canPlayCard = true;
-        player.canPlayCard = true;
         gm.isWar = false;
 
         removeDiaglog();
+
+        alien.card_Deck_And_Slots.fillCardSlots(false);
+        player.card_Deck_And_Slots.fillCardSlots(true);
     }
 }
