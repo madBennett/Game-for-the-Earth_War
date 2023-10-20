@@ -25,12 +25,6 @@ public class User : MonoBehaviour
         played_Cards = FindObjectOfType<Played_Cards>();
 
         card_Deck_And_Slots.deck = gm.getStartingDeck(true);
-
-        for (int i = 21; i >0; i--)
-        {
-            card_Deck_And_Slots.deck.RemoveAt(i);
-        }
-
         card_Deck_And_Slots.setUpSlots(true);
     }
 
@@ -59,7 +53,6 @@ public class User : MonoBehaviour
                             played_Cards.addToPlayed(true, playedCard, slotNum);
                             playedCard.isPlayableCard = false;
                             gm.startTime = Time.time;
-                            //card_Deck_And_Slots.fillCardSlots(true);
 
                             return true;
                         }

@@ -58,7 +58,7 @@ public class Card_Deck_and_Slots : MonoBehaviour
     {
         for (int i = 0; i < avaibleSlots.Length; i++)
         {
-            if ((deck.Count > 0)) //account for playable deck and played card
+            if ((deck.Count > 0))
             {
                 Card newCard = deck[0];
 

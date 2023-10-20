@@ -16,6 +16,7 @@ public class Alien : MonoBehaviour
     public bool canPlayCard = true;
     public int currWarSlot = 0;
     public int warScore = 0;
+    public List<int> indexes = new List<int>();
 
     public Transform[] playedSlots;
 
@@ -26,18 +27,26 @@ public class Alien : MonoBehaviour
 
         card_Deck_And_Slots.deck = gm.getStartingDeck(false);
         card_Deck_And_Slots.setUpSlots(false);
+
+        for (int i = 0; i< card_Deck_And_Slots.playableDeck.Length; i++)
+        {
+            indexes.Add(i);
+        }
     }
 
     public bool playCard(int slotNum)
     {
-        if ((canPlayCard && played_Cards.alienAvaibleSlots[slotNum]) && (card_Deck_And_Slots.deck.Count > 0))
+        if ((canPlayCard && played_Cards.alienAvaibleSlots[slotNum]) && (card_Deck_And_Slots.getTotalDeckCount() > 0))
         {
             //select card
-            int i = Random.Range(0, card_Deck_And_Slots.getPlayableSize() - 1);
+            int i = indexes[Random.Range(0, indexes.Count - 1)];
             Card playedCard = card_Deck_And_Slots.playableDeck[i];
 
             if (!System.Object.ReferenceEquals(playedCard, null))
             {
+
+                indexes.Remove(i);
+
                 //remove from playable deck and replace card
                 card_Deck_And_Slots.playableRemove(playedCard);
                 card_Deck_And_Slots.avaibleSlots[i] = true;
@@ -47,11 +56,20 @@ public class Alien : MonoBehaviour
                 played_Cards.addToPlayed(false, playedCard, slotNum);
                 canPlayCard = false;
 
-                //card_Deck_And_Slots.fillCardSlots( false);
-
+                if (!gm.isWar || currWarSlot >= played_Cards.alienAvaibleSlots.Length - 1)
+                {
+                    //reset indexes
+                    indexes.Clear();
+                    for (int j = 0; j < card_Deck_And_Slots.avaibleSlots.Length; j++)
+                    {
+                        if (!card_Deck_And_Slots.avaibleSlots[j])
+                        {
+                            indexes.Add(j);
+                        }
+                    }
+                }
                 return true;
             }
-                
         }
         return false;
     }
