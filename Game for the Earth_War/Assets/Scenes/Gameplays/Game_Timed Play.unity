@@ -151,6 +151,10 @@ PrefabInstance:
       value: Background Audio Source
       objectReference: {fileID: 0}
     - target: {fileID: 6992250691463372814, guid: 90900543041200c41b9bc2df6fcc2461, type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6992250691463372814, guid: 90900543041200c41b9bc2df6fcc2461, type: 3}
       propertyPath: m_Volume
       value: 0.05
       objectReference: {fileID: 0}
